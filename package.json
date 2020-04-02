@@ -1,0 +1,39 @@
+{
+  "name": "beercart.io",
+  "version": "1.0.0",
+  "scripts": {
+    "start": "parcel index.html --open",
+    "build": "parcel build index.html",
+    "test": "jest --watch",
+    "lint": "xo"
+  },
+  "dependencies": {
+    "@testing-library/dom": "^6.11.0",
+    "@testing-library/jest-dom": "^4.2.4",
+    "core-js": "^3.3.1",
+    "eslint-config-tram-one": "^4.0.0",
+    "jest": "^24.8.0",
+    "jest-environment-jsdom-fourteen": "^1.0.1",
+    "jest-transform-css": "^2.0.0",
+    "parcel-bundler": "^1.6.1",
+    "parcel-plugin-nuke-dist": "^1.0.0",
+    "regenerator-runtime": "^0.13.3",
+    "sass": "^1.20.1",
+    "tram-blueprints": "^1.0.0",
+    "tram-one": "^9.0.0",
+    "xo": "^0.23.0"
+  },
+  "keywords": [
+    "tram-one"
+  ],
+  "babel": {
+    "presets": [
+      "@babel/preset-env"
+    ]
+  },
+  "xo": {
+    "extends": [
+      "tram-one"
+    ]
+  }
+}

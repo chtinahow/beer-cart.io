@@ -1,0 +1,13 @@
+# Distributable
+dist
+
+# Parcel Dev Artifacts
+.cache
+
+# Logs
+logs
+*.log
+*.log.*
+
+# dependencies
+node_modules
