@@ -36,5 +36,8 @@
     "extends": [
       "tram-one"
     ]
+  },
+  "devDependencies": {
+    "@babel/core": "^7.9.0"
   }
 }
