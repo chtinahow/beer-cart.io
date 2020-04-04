@@ -144,20 +144,7 @@
 								'dateTime': (new Date()).toISOString(),
 								// 'timeZone': 'America/Los_Angeles'
 							},
-							'recurrence': [
-								// 'RRULE:FREQ=DAILY;COUNT=2'
-							],
-							// 'attendees': [
-							// 	{'email': 'lpage@example.com'},
-							// 	{'email': 'sbrin@example.com'}
-							// ],
-							// 'reminders': {
-							// 	'useDefault': false,
-							// 	'overrides': [
-							// 		{'method': 'email', 'minutes': 24 * 60},
-							// 		{'method': 'popup', 'minutes': 10}
-							// 	]
-							// }
+							sendUpdates: 'none',
 							conferenceData: {
 								createRequest: {requestId: "7qxalsvy0e"}
 							},
@@ -169,8 +156,20 @@
 							conferenceDataVersion: 1
 						});
 
+						const removeEvent = (event) => {
+							const deleteRequest = gapi.client.calendar.events.delete({
+								calendarId: 'primary',
+								eventId: event.id,
+								sendUpdates: 'none'
+							})
+							deleteRequest.execute()
+						}
+
 						request.execute(function(event) {
+							// note the event hangout may not exist yet,
+							// TODO include logic to handle hangout status = pending
 							var child = window.open(event.hangoutLink,'','toolbar=0,status=0,width=626,height=436');
+							removeEvent(event)
 							console.log(event)
 
 							let timer;
