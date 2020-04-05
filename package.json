@@ -36,8 +36,10 @@
   "xo": {
     "extends": [
       "tram-one"
-		],
-		"globals": [ "gapi" ]
+    ],
+    "globals": [
+      "gapi"
+    ]
   },
   "devDependencies": {
     "@babel/core": "^7.9.0"
