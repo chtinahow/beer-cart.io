@@ -10,7 +10,7 @@ const clientOptions = {
 }
 
 // this is triggered onLoad, after the gapi script has been loaded
-const initializeClient = async () => {
+export const initializeClient = async () => {
 	const [, setSignedIn] = useGlobalObservable('gapi.isSignedIn', false)
 
 	try {
@@ -27,13 +27,16 @@ const initializeClient = async () => {
 	}
 }
 
-const signIn = () => gapi.auth2.getAuthInstance().signIn()
-const signOut = () => gapi.auth2.getAuthInstance().signOut()
-const onLoad = () => gapi.load('client:auth2', initializeClient)
-const getCurrentStatus = () => gapi.auth2.getAuthInstance().isSignedIn.get()
+export const signIn = () => gapi.auth2.getAuthInstance().signIn()
+export const signOut = () => gapi.auth2.getAuthInstance().signOut()
+export const onLoad = () => gapi.load('client:auth2', initializeClient)
+export const getCurrentStatus = () => gapi.auth2.getAuthInstance().isSignedIn.get()
+
+export const useGoogleOAuthSignedInStatus = () => {
+	const [isSignedIn] = useGlobalObservable('gapi.isSignedIn', false)
+	return { isSignedIn }
+}
 
 // calendar actions
-const createEvent = (...args) => gapi.client.calendar.events.insert(...args)
-const deleteEvent = (...args) => gapi.client.calendar.events.delete(...args)
-
-export { signIn, signOut, onLoad, getCurrentStatus, createEvent, deleteEvent }
+export const createEvent = (...args) => gapi.client.calendar.events.insert(...args)
+export const deleteEvent = (...args) => gapi.client.calendar.events.delete(...args)

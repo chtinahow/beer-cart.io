@@ -1,11 +1,13 @@
 import { registerHtml } from 'tram-one'
-// import { signIn } from './components/GoogleAPI'
-import './LoginHeader.scss';
 import BeerMug from '../../../clinking-beer-mugs_1f37b.png'
+import LoginControl from '../LoginControl'
+import './LoginHeader.scss'
 
-const html = registerHtml()
+const html = registerHtml({
+	LoginControl
+})
 
-export default (props, children) => {
+export default () => {
 	return html`
     <nav class="LoginHeader">
 			<div class="nav-container">
@@ -14,7 +16,9 @@ export default (props, children) => {
 							<a href="/">BeercartIO</a>
 					</div>
 					<ul class="nav-links">
-							<li><a href="/docs/installation">Login</a></li>
+							<li>
+								<LoginControl />
+							</li>
 					</ul>
 			</div>
 		</nav>

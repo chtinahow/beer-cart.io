@@ -3,7 +3,7 @@ import { registerHtml } from 'tram-one'
 const html = registerHtml()
 
 export default (props, children) => {
-  return html`
+	return html`
     <div>
       <header>
         <h1 class="title">Space for your headline.</h1>
@@ -14,7 +14,7 @@ export default (props, children) => {
         <a class="scroll-down" href="#"></a>
       </header>
 
-      <section>  
+      <section>
         <p class="h3"><strong>Get More</strong></p>
         <p>This is an examples of header styles that are used in Mustard UI.  We like to think of it as a starter CSS framework that actually looks good.  We'd love to hear your feedback!</p>
         <p>See more examples of <a href="https://mustard-ui.com/docs/header">CSS Header Styles</a>.</p>
