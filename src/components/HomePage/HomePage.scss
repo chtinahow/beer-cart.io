@@ -1,0 +1,8 @@
+.HomePage {
+    display: grid;
+    grid-template-columns: 50% 50%;
+    grid-template-rows: auto;
+    grid-template-areas:
+    "login-header login-header"
+    "hero preview"
+}
