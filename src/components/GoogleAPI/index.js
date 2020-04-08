@@ -1,3 +1,3 @@
 export { default } from './GoogleAPI'
-export { default as useNewHangoutLink } from './useNewHangoutLink'
+export { default as createNewHangoutLink } from './createNewHangoutLink'
 export { signIn, signOut, useGoogleOAuthSignedInStatus } from './useGoogleAPI'

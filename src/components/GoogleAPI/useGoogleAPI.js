@@ -1,11 +1,12 @@
 // api docs https://www.googleapis.com/discovery/v1/apis/calendar/v3/rest
 
 import { useGlobalObservable } from 'tram-one'
-import { API_KEY, CLIENT_ID, SCOPES } from './access'
+import { API_KEY, CLIENT_ID, DISCOVERY_DOCS, SCOPES } from './access'
 
 const clientOptions = {
 	apiKey: API_KEY,
 	clientId: CLIENT_ID,
+	discoveryDocs: DISCOVERY_DOCS,
 	scope: SCOPES
 }
 
@@ -38,5 +39,9 @@ export const useGoogleOAuthSignedInStatus = () => {
 }
 
 // calendar actions
-export const createEvent = (...args) => gapi.client.calendar.events.insert(...args)
-export const deleteEvent = (...args) => gapi.client.calendar.events.delete(...args)
+export const createEvent = (...args) => {
+	return gapi.client.calendar.events.insert(...args)
+}
+export const deleteEvent = (...args) => {
+	return gapi.client.calendar.events.delete(...args)
+}

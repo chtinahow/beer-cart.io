@@ -2,7 +2,6 @@
  * There is no official Hangouts API for creating and deleting hangout calls.
  * However, it is possible to create a calendar event, with conferencing, get the link, and then delete the event
  */
-import { useObservable, useEffect } from 'tram-one'
 import { createEvent, deleteEvent } from './useGoogleAPI'
 
 const eventDetails = {
@@ -23,37 +22,36 @@ const eventDetails = {
 	}
 }
 
-const removeEvent = event => {
-	const deleteRequest = deleteEvent({
-		calendarId: 'primary',
-		eventId: event.id,
-		sendUpdates: 'none'
-	})
-	deleteRequest.execute()
-}
-
 export default () => {
-	const [hangoutLink, setHangoutLink] = useObservable()
-	useEffect(() => {
+	return new Promise((resolve, reject) => {
 		// create a new event with conferencing
-		const createRequest = createEvent({
-			calendarId: 'primary',
-			resource: eventDetails,
-			conferenceDataVersion: 1
-		})
+		try {
+			const createRequest = createEvent({
+				calendarId: 'primary',
+				resource: eventDetails,
+				conferenceDataVersion: 1
+			})
 
-		// execute the request to create the event
-		createRequest.execute(event => {
-			// note the event hangout may not exist yet,
-			// TODO include logic to handle hangout status = pending
+			// execute the request to create the event
+			createRequest.execute(event => {
+				// note the event hangout may not exist yet,
+				// TODO include logic to handle hangout status = pending
 
-			// set the hangout link from the event
-			setHangoutLink(event.hangoutLink)
+				// set the hangout link from the event
+				resolve(event.hangoutLink)
 
-			// delete the event, leave no traces
-			removeEvent(event).execute()
-		})
+				// delete the event, leave no traces
+				const deleteRequest = deleteEvent({
+					calendarId: 'primary',
+					eventId: event.id,
+					sendUpdates: 'none'
+				})
+				deleteRequest.execute()
+			})
+		} catch (error) {
+			console.error('Error Creating Hangout Link or Event')
+			console.error(error)
+			reject(error)
+		}
 	})
-
-	return hangoutLink
 }

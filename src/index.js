@@ -1,25 +1,26 @@
 import 'core-js/stable'
 import 'regenerator-runtime/runtime'
-import { registerHtml, start } from 'tram-one'
+import { registerHtml, start, useUrlParams } from 'tram-one'
 import LoginHeader from './components/LoginHeader'
 import HomepageHeader from './components/HomepageHeader'
+import DebugPage from './components/DebugPage'
 import './styles.scss'
-import useColor from './hooks/useColor'
-import GoogleAPI, { useNewHangoutLink } from './components/GoogleAPI'
+import GoogleAPI from './components/GoogleAPI'
 import 'mustard-ui'
 
 const html = registerHtml({
-	LoginHeader, GoogleAPI, HomepageHeader
+	LoginHeader, GoogleAPI, HomepageHeader, DebugPage
 })
 
 const home = () => {
-	const [color] = useColor()
+	if (useUrlParams('/debug')) {
+		return html`<DebugPage />`
+	}
 	return html`
     <div>
 			<GoogleAPI />
       <LoginHeader />
       <HomepageHeader />
-      <div style="color:${color}"> Thank you for using Tram-One! </div>
     </div>
   `
 }
