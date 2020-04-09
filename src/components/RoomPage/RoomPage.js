@@ -11,7 +11,10 @@ export default (props, children) => {
   return html`
     <div class="RoomPage">
       <h1>Room Page: ${roomId}</h1>
-      <Conversation />
+      <div class="conversation-grid">
+        <Conversation />
+        <Conversation />
+      </div>
     </div>
   `
 }
