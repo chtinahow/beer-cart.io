@@ -1,10 +1,8 @@
 import { registerHtml } from 'tram-one'
-import GoogleAPI, { signIn, createNewHangoutLink, useGoogleOAuthSignedInStatus } from '../GoogleAPI'
+import { signIn, createNewHangoutLink, useGoogleOAuthSignedInStatus } from '../GoogleAPI'
 import './DebugPage.scss'
 
-const html = registerHtml({
-	GoogleAPI
-})
+const html = registerHtml()
 
 export default () => {
 	const { isSignedIn } = useGoogleOAuthSignedInStatus()
@@ -25,7 +23,6 @@ export default () => {
 
 	return html`
     <div class="DebugPage">
-			<GoogleAPI />
 			<h1>Debug Page</h1>
 			<button onclick=${signIn}>Sign In</button>
 			${isSignedIn ? 'Signed In' : 'Not Signed In'}
