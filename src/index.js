@@ -18,7 +18,7 @@ const home = () => {
 		if (useUrlParams('/debug')) {
 			return html`<DebugPage />`
 		}
-		if(useUrlParams('/room/:roomId')) {
+		if (useUrlParams('/room/:roomId')) {
 			return html`<RoomPage />`
 		}
 		return html`
@@ -35,6 +35,6 @@ const home = () => {
 			${currentPage}
 			<JoinRoomPrompt />
 		</div>
-	`	
+	`
 }
 start('#app', home)
