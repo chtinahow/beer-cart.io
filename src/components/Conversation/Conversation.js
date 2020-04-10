@@ -1,4 +1,4 @@
-import { registerHtml } from 'tram-one'
+import { registerHtml, useGlobalObservable } from 'tram-one'
 import AvatarGroup from '../AvatarGroup'
 import './Conversation.scss'
 
@@ -12,13 +12,16 @@ const useRoomData = () => {
 }
 
 export default (props, children) => {
+	const [showConversationToast, setConversationToast] = useGlobalObservable('conversation-toast', false)
+
   // We will have a hook to get users and a link of a room
 	const { users, link } = useRoomData()
 	
 	const userNameString = users.length > 3 ? users.slice(0,3).map( user => user.name).join(', ') + ` and ${users.length - 3} others` : users.map( user => user.name).join(', ')
 
   const openHangout = async () => {
-		window.open(link, '_blank', 'noreferrer,toolbar=0,status=0,width=626,height=436')
+    window.open(link, '_blank', 'noreferrer,toolbar=0,status=0,width=626,height=436')
+    setConversationToast(true)
 	}
 
   return html`

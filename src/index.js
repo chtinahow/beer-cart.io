@@ -3,6 +3,7 @@ import 'regenerator-runtime/runtime'
 import { registerHtml, start, useUrlParams } from 'tram-one'
 import DebugPage from './components/DebugPage'
 import HomePage from './components/HomePage'
+import LoginHeader from './components/LoginHeader'
 import RoomPage from './components/RoomPage'
 import GoogleAPI from './components/GoogleAPI'
 import JoinRoomPrompt from './components/JoinRoomPrompt'
@@ -11,7 +12,7 @@ import './styles.scss'
 import 'mustard-ui'
 
 const html = registerHtml({
-	HomePage, DebugPage, RoomPage, GoogleAPI, JoinRoomPrompt, CreateRoomPrompt
+	HomePage, DebugPage, RoomPage, GoogleAPI, JoinRoomPrompt, CreateRoomPrompt, LoginHeader
 })
 
 const home = () => {
@@ -33,6 +34,7 @@ const home = () => {
 	return html`
 		<div>
 			<GoogleAPI />
+			<LoginHeader />
 			${currentPage}
 			<JoinRoomPrompt />
 			<CreateRoomPrompt />
