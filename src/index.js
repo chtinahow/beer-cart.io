@@ -6,11 +6,12 @@ import HomePage from './components/HomePage'
 import RoomPage from './components/RoomPage'
 import GoogleAPI from './components/GoogleAPI'
 import JoinRoomPrompt from './components/JoinRoomPrompt'
+import CreateRoomPrompt from './components/CreateRoomPrompt'
 import './styles.scss'
 import 'mustard-ui'
 
 const html = registerHtml({
-	HomePage, DebugPage, RoomPage, GoogleAPI, JoinRoomPrompt
+	HomePage, DebugPage, RoomPage, GoogleAPI, JoinRoomPrompt, CreateRoomPrompt
 })
 
 const home = () => {
@@ -34,6 +35,7 @@ const home = () => {
 			<GoogleAPI />
 			${currentPage}
 			<JoinRoomPrompt />
+			<CreateRoomPrompt />
 		</div>
 	`
 }
