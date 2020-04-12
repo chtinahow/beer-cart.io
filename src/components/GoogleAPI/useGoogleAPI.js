@@ -32,6 +32,7 @@ export const signIn = () => gapi.auth2.getAuthInstance().signIn()
 export const signOut = () => gapi.auth2.getAuthInstance().signOut()
 export const onLoad = () => gapi.load('client:auth2', initializeClient)
 export const getCurrentStatus = () => gapi.auth2.getAuthInstance().isSignedIn.get()
+export const getBasicProfile = () => gapi.auth2.getAuthInstance().currentUser.get().getBasicProfile()
 
 export const useGoogleOAuthSignedInStatus = () => {
 	const [isSignedIn] = useGlobalObservable('gapi.isSignedIn', false)

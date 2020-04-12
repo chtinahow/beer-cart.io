@@ -11,3 +11,6 @@ logs
 
 # dependencies
 node_modules
+
+# firebase cache
+.firebase

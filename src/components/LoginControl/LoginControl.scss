@@ -1,3 +1,10 @@
 .LoginControl {
+	display: flex;
+	width: 30%;
 
+	.avatar {
+		height: 40px;
+		width: 40px;
+		margin-right: .5em;
+	}
 }

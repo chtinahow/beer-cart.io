@@ -3,33 +3,37 @@ import AvatarGroup from '../AvatarGroup'
 import './Conversation.scss'
 
 const html = registerHtml({
-  AvatarGroup
+	AvatarGroup
 })
 
-//TODO actually make hook
-const useRoomData = () => {
-  return {users: [{name: 'jesse', avatar: null}, {name: 'sprocket', avatar: null}, {name: 'Tina', avatar: null}, {name: 'George', avatar: null}, {name: 'Randy', avatar: null}], link: 'https://meet.google.com/sin-kead-jfc?authuser=1' }
-}
-
 export default (props, children) => {
-	const [showConversationToast, setConversationToast] = useGlobalObservable('conversation-toast', false)
+	const [, setConversationToast] = useGlobalObservable('conversation-toast', false)
 
-  // We will have a hook to get users and a link of a room
-	const { users, link } = useRoomData()
-	
-	const userNameString = users.length > 3 ? users.slice(0,3).map( user => user.name).join(', ') + ` and ${users.length - 3} others` : users.map( user => user.name).join(', ')
+	// We will have a hook to get users and a link of a room
+	const { users, link } = props
 
-  const openHangout = async () => {
-    window.open(link, '_blank', 'noreferrer,toolbar=0,status=0,width=626,height=436')
-    setConversationToast(true)
+	// if there is no link, these people are not part of a conversation
+	const isNoGroup = link === ''
+
+	const userNameString = users.length > 3 ? users.slice(0, 3).map(user => user.name).join(', ') + ` and ${users.length - 3} others` : users.map(user => user.name).join(', ')
+
+	const openHangout = async () => {
+		window.open(link, '_blank', 'noreferrer,toolbar=0,status=0,width=626,height=436')
+		setConversationToast(true)
 	}
 
-  return html`
+	const conversationTitle = isNoGroup ? 'Not in a conversation' : userNameString
+
+	const joinConversationButton = html`<button class="button-primary" onclick=${openHangout}>Join Conversation</button>`
+	const createConversationButton = html`<button class="button-info" onclick=${openHangout}>Create Conversation</button>`
+	const conversationAction = isNoGroup ? createConversationButton : joinConversationButton
+
+	return html`
     <div class="Conversation">
-			<div>${userNameString}</div>
+			<div>${conversationTitle}</div>
       <div class="card">
         <AvatarGroup users=${users} />
-        <button class="button-primary" onclick=${openHangout}>Join Room</button>
+        ${conversationAction}
       </div>
     </div>
   `

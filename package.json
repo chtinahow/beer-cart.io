@@ -5,7 +5,8 @@
     "start": "parcel index.html --open",
     "build": "parcel build index.html",
     "test": "jest --watch",
-    "lint": "xo"
+		"lint": "xo",
+		"deploy": "firebase deploy"
   },
   "dependencies": {
     "@testing-library/dom": "^6.11.0",

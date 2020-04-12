@@ -4,6 +4,9 @@
 1. In the root directory, run `npm install` to install all the project dependencies
 2. Run `npm start` to start the dev server
 3. Navigate to http://localhost:1234 (or the url provided after running `npm start`)
+4. Open a second terminal
+5. Go to the `/functions` directory, and run `npm install`
+6. Run the emulator for hosting, functions, and the db: `npm run serve:all`
 
 ## Development commands
 Below are a list of commands used for development. The logic for all the commands is in the local `package.json`

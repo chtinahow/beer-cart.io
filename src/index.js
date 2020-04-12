@@ -1,6 +1,6 @@
 import 'core-js/stable'
 import 'regenerator-runtime/runtime'
-import { registerHtml, start, useUrlParams } from 'tram-one'
+import { registerHtml, start, useUrlParams, useEffect } from 'tram-one'
 import DebugPage from './components/DebugPage'
 import HomePage from './components/HomePage'
 import LoginHeader from './components/LoginHeader'
@@ -16,6 +16,11 @@ const html = registerHtml({
 })
 
 const home = () => {
+	useEffect(async () => {
+		const response = await fetch('/api/helloWorld')
+		console.log(response)
+	})
+
 	const router = () => {
 		if (useUrlParams('/debug')) {
 			return html`<DebugPage />`

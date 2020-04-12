@@ -15,11 +15,7 @@ export default () => {
 							<img src=${BeerMug} width="50" height="50" />
 							<a href="/">BeercartIO</a>
 					</div>
-					<ul class="nav-links">
-							<li>
-								<LoginControl />
-							</li>
-					</ul>
+					<LoginControl />
 			</div>
 		</nav>
   `
