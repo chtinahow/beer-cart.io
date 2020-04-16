@@ -13,7 +13,10 @@ export default (props, children) => {
 
   return html`
     <div class="InConversationToast">
-      <p class="alert alert-info alert-border">Joined Conversation</p>
+      <p class="alert alert-info alert-border">Joined Conversation
+        <button class="button-primary-text"> Leave Conversation </button>
+      </p>
+      
     </div>
   `
 }
