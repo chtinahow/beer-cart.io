@@ -1,29 +1,43 @@
-/* NOTE: functions added here need to be written in the firebase.json rewrites */
-
-const getRoom = (request, response) => {
+const getRoom = database => async (request, response) => {
 	const roomId = request.url.split('/').slice(-1)[0]
-
-	// if room does not exist, return a 404
-	// TODO check roomId against db
-	const roomDoesNotExist = roomId !== 'vr-1234'
-	if (roomDoesNotExist) {
-		response.status(404).send({ errorKey: 'error.roomNotFound', errorMessage: 'Room Not Found, is the ID Correct?' })
+	try {
+		const roomData = await database.collection('rooms').doc(roomId).get()
+		if (!roomData.exists) {
+			response.status(404).send({ errorKey: 'error.roomNotFound', errorMessage: 'Room Not Found, is the ID Correct?' })
+			return
+		}
+		response.send(roomData.data())
 		return
+	} catch (error) {
+		response.status(500).send({ errorKey: 'error.databaseConnection', errorMessage: 'There was an issue connecting to the database, try again later...', error })
 	}
+}
 
-	// TODO hit database for room data
-	response.send({
-		id: 'vr-1234',
-		roomName: 'Virtual Fun Times',
-		conversations: [
-			// converstaion with blank link is no-group
-			{ users: [{ name: 'Randy', avatar: null }, { name: 'George', avatar: null }], link: '' },
-			{ users: [{ name: 'Jesse', avatar: null }, { name: 'Tina', avatar: null }, { name: 'Sprocket', avatar: null }, { name: 'Nick', avatar: null }, { name: 'Mitch', avatar: null }], link: 'https://meet.google.com/sin-kead-jfc?authuser=1' },
-			{ users: [{ name: 'Molly', avatar: null }, { name: 'Tim', avatar: null }, { name: 'Kai', avatar: null }], link: 'https://meet.google.com/sin-kead-jfc?authuser=1' }
-		]
-	})
+const joinRoom = database => (request, response) => {
+	console.log(request)
+	response.send('OK')
+	// read request body to get the user information
+	// update the no-group conversation to have user
+}
+
+const leaveRoom = (request, response) => {
+	// read request body to get the user information
+	// update whatever conversation to not have the user
+}
+
+const joinConversation = (request, response) => {
+	// read request body to get the user information
+	// read request body to get conversation information
+	// update the no-group conversation to not have user
+	// update the selected conversation to have the user
+}
+
+const leaveConversation = (request, response) => {
+	// read request body to get the user information
+	// update the no-group conversation to have user
+	// update the selected conversation to have the user
 }
 
 module.exports = {
-	getRoom
+	getRoom, joinRoom, leaveRoom, joinConversation, leaveConversation
 }

@@ -1,4 +1,5 @@
 import { registerHtml, useUrlParams, useGlobalObservable, useEffect } from 'tram-one'
+import { getUserObject, useGoogleOAuthSignedInStatus } from '../GoogleAPI'
 import Conversation from '../Conversation'
 import InConversationToast from '../InConversationToast'
 import './RoomPage.scss'
@@ -13,22 +14,38 @@ export default (props, children) => {
 	const { roomId } = useUrlParams('/room/:roomId')
 	const [roomData] = useGlobalObservable('room-data', {})
 
+	// get room data hook
+	// useEffect(async () => {
+	// 	const [roomData] = useGlobalObservable('room-data')
+	// 	if (roomData[roomId] === undefined) {
+	// 		// TODO abstract out this fetch logic
+	// 		const roomResponse = await fetch(`/api/getRoom/${roomId}`)
+	// 		if (roomResponse.status === 200) {
+	// 			roomData[roomId] = await roomResponse.json()
+	// 		} else {
+	// 			goToHomepage()
+	// 		}
+	// 	}
+	// })
+
+	// join room hook
 	useEffect(async () => {
-		const [roomData] = useGlobalObservable('room-data')
-		if (roomData[roomId] === undefined) {
-			// TODO abstract out this fetch logic
-			const roomResponse = await fetch(`/api/getRoom/${roomId}`)
-			if (roomResponse.status === 200) {
-				roomData[roomId] = await roomResponse.json()
-			} else {
-				goToHomepage()
-			}
-		}
+		// const { isSignedIn } = useGoogleOAuthSignedInStatus()
+		const [isSignedIn] = useGlobalObservable('gapi.isSignedIn', false)
+
+		console.log(isSignedIn)
+		if (!isSignedIn) return
+		const user = getUserObject()
+		const joinRoomRequest = await fetch(`/api/joinRoom/${roomId}`, { method: 'POST', body: JSON.stringify({
+			roomId, user
+		}) })
+		console.log(joinRoomRequest)
 	})
 
+	// if we don't have the room data yet, showing a loading indicator
 	if (roomData[roomId] === undefined) {
 		// TODO loading component
-		return html`<div>Loading...</div>`
+		return html`<div class="RoomPage">Loading...</div>`
 	}
 
 	// sort conversations such that the no-group (has no link) appears last

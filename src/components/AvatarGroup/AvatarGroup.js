@@ -1,14 +1,17 @@
 import { registerHtml } from 'tram-one'
+import Avatar from '../Avatar'
 import './AvatarGroup.scss'
 
-const html = registerHtml()
+const html = registerHtml({
+	Avatar
+})
 
 export default (props, children) => {
-  const userList = props.users.map(user => html`<li>${user.name}</li>`)
+	const avatarList = props.users.map(user => html`<Avatar user=${user} />`)
 
-  return html`
+	return html`
     <div class="AvatarGroup">
-      <ul>${userList}</ul>
+      <ul>${avatarList}</ul>
     </div>
   `
 }

@@ -4,16 +4,16 @@ import './Hero.scss'
 const html = registerHtml()
 
 export default (props, children) => {
-  const [showJoinPrompt, setJoinPrompt] = useGlobalObservable('join-prompt' ,false)
-  const [showCreatePrompt, setCreatePrompt] = useGlobalObservable('create-prompt' ,false)
+	const [showJoinPrompt, setJoinPrompt] = useGlobalObservable('join-prompt', false)
+	const [showCreatePrompt, setCreatePrompt] = useGlobalObservable('create-prompt', false)
 
-  const onJoinRoom = () => {
-    setJoinPrompt(true)
-  }
+	const onJoinRoom = () => {
+		setJoinPrompt(true)
+	}
 
-  const onCreateRoom = () => {
-    setCreatePrompt(true)
-  }
+	const onCreateRoom = () => {
+		setCreatePrompt(true)
+	}
 
 	return html`
     <header class="Hero">

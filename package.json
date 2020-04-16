@@ -5,8 +5,8 @@
     "start": "parcel index.html --open",
     "build": "parcel build index.html",
     "test": "jest --watch",
-		"lint": "xo",
-		"deploy": "firebase deploy"
+    "lint": "xo",
+    "deploy": "firebase deploy"
   },
   "dependencies": {
     "@testing-library/dom": "^6.11.0",
@@ -23,7 +23,7 @@
     "regenerator-runtime": "^0.13.3",
     "sass": "^1.20.1",
     "tram-blueprints": "^1.0.0",
-    "tram-one": "^9.0.0",
+    "tram-one": "^9.0.1",
     "xo": "^0.23.0"
   },
   "keywords": [

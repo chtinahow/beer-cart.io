@@ -1,20 +1,20 @@
 import { registerHtml } from 'tram-one'
-import { signIn, signOut, useGoogleOAuthSignedInStatus, getBasicProfile } from '../GoogleAPI'
+import { signIn, signOut, useGoogleOAuthSignedInStatus, getUserObject } from '../GoogleAPI'
+import Avatar from '../Avatar'
 import './LoginControl.scss'
 
-const html = registerHtml()
+const html = registerHtml({ Avatar })
 
 export default () => {
 	const { isSignedIn } = useGoogleOAuthSignedInStatus()
 
 	if (isSignedIn) {
-		const name = getBasicProfile().getGivenName()
-		const avatar = getBasicProfile().getImageUrl()
+		const user = getUserObject()
 		return html`
 			<div class="LoginControl">
-				<img class="avatar" src=${avatar} />
+				<Avatar user=${user} />
 				<select class="login-action" onchange=${signOut}>
-					<option> ${name}</option>
+					<option> ${user.name}</option>
 					<option onclick=${signOut}>Log out</option>
 				</select>
 			</div>
