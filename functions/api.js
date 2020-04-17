@@ -1,29 +1,26 @@
-// const getRoomRefAndData = async (database, roomId) => {
-// 	const roomRef = database.collection('rooms').doc(roomId)
-// 	const room = await roomRef.get()
-// 	if (!room.exists) {
-// 		const error = { errorKey: 'error.roomNotFound', errorMessage: 'Room Not Found, is the ID Correct?' }
-// 		response.status(404).send(error)
-// 		return null
-// 	}
-
-// 	{ ref: roomRef, data: room.data() }
-// }
+// helper function to verify that the room exists
+// if it does, return a reference, and a data object
+const getRoomRefAndData = async (database, roomId, response) => {
+	try {
+		const roomRef = database.collection('rooms').doc(roomId)
+		const room = await roomRef.get()
+		if (!room.exists) {
+			const error = { errorKey: 'error.roomNotFound', errorMessage: 'Room Not Found, is the ID Correct?' }
+			response.status(404).send(error)
+			return null
+		}
+		return { ref: roomRef, data: room.data() }
+	} catch (error) {
+		response.status(500).send({ errorKey: 'error.databaseConnection', errorMessage: 'There was an issue connecting to the database, try again later...', error })
+	}
+	return null
+}
 
 const getRoom = database => async (request, response) => {
 	const roomId = request.url.split('/').slice(-1)[0]
-	try {
-		const roomData = await database.collection('rooms').doc(roomId).get()
-
-		// check that the room exists, otherwise throw a 404
-		if (!roomData.exists) {
-			response.status(404).send({ errorKey: 'error.roomNotFound', errorMessage: 'Room Not Found, is the ID Correct?' })
-			return
-		}
-		response.send(roomData.data())
-		return
-	} catch (error) {
-		response.status(500).send({ errorKey: 'error.databaseConnection', errorMessage: 'There was an issue connecting to the database, try again later...', error })
+	const room = await getRoomRefAndData(database, roomId, response)
+	if (room) {
+		response.send(room.data)
 	}
 }
 
@@ -35,15 +32,10 @@ const createRoom = database => (request, response) => {
 const joinRoom = database => async (request, response) => {
 	const { roomId, user } = JSON.parse(request.body)
 
-	const roomRef = database.collection('rooms').doc(roomId)
-	const room = await roomRef.get()
-	if (!room.exists) {
-		response.status(404).send({ errorKey: 'error.roomNotFound', errorMessage: 'Room Not Found, is the ID Correct?' })
-		return
-	}
+	const room = await getRoomRefAndData(database, roomId, response)
+	if (!room) return
+	const { ref: roomRef, data: roomData } = room
 
-	// check if the user is already in the room
-	const roomData = room.data()
 	const allUsers = roomData.conversations.flatMap(conv => conv.users).map(user => user.email)
 	if (allUsers.includes(user.email)) {
 		response.send(roomData)
@@ -70,10 +62,10 @@ const joinConversation = database => async (request, response) => {
 	// read request body to get the user and conversation information
 	const { roomId, user, conversationLink } = JSON.parse(request.body)
 
-	const roomRef = database.collection('rooms').doc(roomId)
-	const room = await roomRef.get()
+	const room = await getRoomRefAndData(database, roomId, response)
+	if (!room) return
+	const { ref: roomRef, data: roomData } = room
 
-	const roomData = room.data()
 	// find the conversation that the user is already in
 	const isUserInConversation = conversation => conversation.users.map(convUser => convUser.email).includes(user.email)
 	const usersExistingConversation = roomData.conversations.find(isUserInConversation)
@@ -97,10 +89,31 @@ const joinConversation = database => async (request, response) => {
 	response.send(roomData)
 }
 
-const leaveConversation = (request, response) => {
+const leaveConversation = database => async (request, response) => {
 	// read request body to get the user information
+	// read request body to get the user and conversation information
+	const { roomId, user } = JSON.parse(request.body)
+
+	const room = await getRoomRefAndData(database, roomId, response)
+	if (!room) return
+	const { ref: roomRef, data: roomData } = room
+
+	// find the conversation that the user is already in
+	const isUserInConversation = conversation => conversation.users.map(convUser => convUser.email).includes(user.email)
+	const usersExistingConversation = roomData.conversations.find(isUserInConversation)
+
+	// update existing user's conversation to not have user
+	const userIndex = usersExistingConversation.users.findIndex(convUser => convUser.email === user.email)
+	usersExistingConversation.users.splice(userIndex, 1)
+
 	// update the no-group conversation to have user
+	const emptyConversation = roomData.conversations.find(conv => conv.link === '')
+
 	// update the selected conversation to have the user
+	emptyConversation.users.push(user)
+	await roomRef.set(roomData)
+
+	response.send(roomData)
 }
 
 module.exports = {

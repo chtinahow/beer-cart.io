@@ -27,6 +27,10 @@
 				"source": "/api/joinConversation/**",
 				"function": "joinConversation"
 			},
+			{
+				"source": "/api/leaveConversation/**",
+				"function": "leaveConversation"
+			},
       {
         "source": "**",
         "destination": "/index.html"

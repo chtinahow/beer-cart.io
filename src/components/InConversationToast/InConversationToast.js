@@ -1,4 +1,5 @@
-import { registerHtml, useGlobalObservable } from 'tram-one'
+import { registerHtml, useGlobalObservable, useUrlParams } from 'tram-one'
+import { getUserObject } from '../GoogleAPI'
 import './InConversationToast.scss'
 
 const html = registerHtml()
@@ -9,6 +10,7 @@ export default (props, children) => {
 
 	// We will have a hook to get users and a link of a room
 	// const { users, link } = props
+	const { roomId } = useUrlParams('/room/:roomId')
 
 	const userNameString = currentConversation.users.length > 3 ? currentConversation.users.slice(0, 3).map(user => user.name).join(', ') + ` and ${currentConversation.users.length - 3} others` : currentConversation.users.map(user => user.name).join(', ')
 
@@ -18,8 +20,17 @@ export default (props, children) => {
 		fetch()
 	}
 
-	const leaveConversation = () => {
-		// TODO Make call to function
+	const leaveConversation = async () => {
+		const [roomData] = useGlobalObservable('room-data', {})
+
+		// update the server that we joined the conversation
+		const user = getUserObject()
+		const leaveRoomRequest = await fetch(`/api/leaveConversation/${roomId}`, {
+			method: 'POST', body: JSON.stringify({
+				roomId, user
+			})
+		})
+		roomData[roomId] = await leaveRoomRequest.json()
 		setConversationToast(false)
 	}
 
