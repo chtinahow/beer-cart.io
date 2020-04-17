@@ -23,6 +23,10 @@
 				"source": "/api/joinRoom/**",
 				"function": "joinRoom"
 			},
+			{
+				"source": "/api/joinConversation/**",
+				"function": "joinConversation"
+			},
       {
         "source": "**",
         "destination": "/index.html"

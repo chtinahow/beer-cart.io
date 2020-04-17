@@ -1,3 +1,15 @@
+// const getRoomRefAndData = async (database, roomId) => {
+// 	const roomRef = database.collection('rooms').doc(roomId)
+// 	const room = await roomRef.get()
+// 	if (!room.exists) {
+// 		const error = { errorKey: 'error.roomNotFound', errorMessage: 'Room Not Found, is the ID Correct?' }
+// 		response.status(404).send(error)
+// 		return null
+// 	}
+
+// 	{ ref: roomRef, data: room.data() }
+// }
+
 const getRoom = database => async (request, response) => {
 	const roomId = request.url.split('/').slice(-1)[0]
 	try {
@@ -34,7 +46,7 @@ const joinRoom = database => async (request, response) => {
 	const roomData = room.data()
 	const allUsers = roomData.conversations.flatMap(conv => conv.users).map(user => user.email)
 	if (allUsers.includes(user.email)) {
-		response.status(200).send(roomData)
+		response.send(roomData)
 		return
 	}
 
@@ -54,11 +66,35 @@ const leaveRoom = (request, response) => {
 	// update whatever conversation to not have the user
 }
 
-const joinConversation = (request, response) => {
-	// read request body to get the user information
-	// read request body to get conversation information
-	// update the no-group conversation to not have user
+const joinConversation = database => async (request, response) => {
+	// read request body to get the user and conversation information
+	const { roomId, user, conversationLink } = JSON.parse(request.body)
+
+	const roomRef = database.collection('rooms').doc(roomId)
+	const room = await roomRef.get()
+
+	const roomData = room.data()
+	// find the conversation that the user is already in
+	const isUserInConversation = conversation => conversation.users.map(convUser => convUser.email).includes(user.email)
+	const usersExistingConversation = roomData.conversations.find(isUserInConversation)
+
+	// update existing user's conversation to not have user
+	const userIndex = usersExistingConversation.users.findIndex(convUser => convUser.email === user.email)
+	usersExistingConversation.users.splice(userIndex, 1)
+
+	// find the conversation that they want to be in
+	const selectedConversation = roomData.conversations.find(conv => conv.link === conversationLink)
+	// if we couldn't find conversation, don't update data
+	if (!selectedConversation) {
+		response.status(404).send({ errorKey: 'error.conversationNotFound', errorMessage: 'Conversation Not Found, is it still open?' })
+		return
+	}
+
 	// update the selected conversation to have the user
+	selectedConversation.users.push(user)
+	await roomRef.set(roomData)
+
+	response.send(roomData)
 }
 
 const leaveConversation = (request, response) => {

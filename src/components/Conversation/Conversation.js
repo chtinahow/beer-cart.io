@@ -1,4 +1,5 @@
-import { registerHtml, useGlobalObservable } from 'tram-one'
+import { registerHtml, useGlobalObservable, useUrlParams } from 'tram-one'
+import { getUserObject } from '../GoogleAPI'
 import AvatarGroup from '../AvatarGroup'
 import './Conversation.scss'
 
@@ -10,6 +11,8 @@ export default (props, children) => {
 	const [, setConversationToast] = useGlobalObservable('conversation-toast', false)
 	const [currentConversation] = useGlobalObservable('current-conversation-data', { users: [] })
 
+	const { roomId } = useUrlParams('/room/:roomId')
+
 	// We will have a hook to get users and a link of a room
 	const { users, link } = props
 
@@ -19,10 +22,21 @@ export default (props, children) => {
 	const userNameString = users.length > 3 ? users.slice(0, 3).map(user => user.name).join(', ') + ` and ${users.length - 3} others` : users.map(user => user.name).join(', ')
 
 	const openHangout = async () => {
+		const [roomData] = useGlobalObservable('room-data', {})
+
 		window.open(link, '_blank', 'noreferrer,toolbar=0,status=0,width=626,height=436')
 		setConversationToast(true)
 		currentConversation.link = link
 		currentConversation.users = users
+
+		// update the server that we joined the conversation
+		const user = getUserObject()
+		const joinRoomRequest = await fetch(`/api/joinConversation/${roomId}`, {
+			method: 'POST', body: JSON.stringify({
+				roomId, user, conversationLink: link
+			})
+		})
+		roomData[roomId] = await joinRoomRequest.json()
 	}
 
 	const conversationTitle = isNoGroup ? 'Not in a conversation' : userNameString

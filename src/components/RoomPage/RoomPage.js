@@ -1,5 +1,5 @@
 import { registerHtml, useUrlParams, useGlobalObservable, useEffect } from 'tram-one'
-import { getUserObject, useGoogleOAuthSignedInStatus } from '../GoogleAPI'
+import { getUserObject } from '../GoogleAPI'
 import Conversation from '../Conversation'
 import InConversationToast from '../InConversationToast'
 import './RoomPage.scss'
@@ -31,6 +31,7 @@ export default (props, children) => {
 	// join room hook
 	useEffect(async () => {
 		const [isSignedIn] = useGlobalObservable('gapi.isSignedIn', false)
+		const [roomData] = useGlobalObservable('room-data', {})
 
 		if (!isSignedIn) return
 		const user = getUserObject()
@@ -39,8 +40,7 @@ export default (props, children) => {
 				roomId, user
 			})
 		})
-		const responseJSON = await joinRoomRequest.json()
-		console.log(responseJSON)
+		roomData[roomId] = await joinRoomRequest.json()
 	})
 
 	// if we don't have the room data yet, showing a loading indicator

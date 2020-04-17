@@ -40,7 +40,10 @@
     ],
     "globals": [
       "gapi"
-    ]
+		],
+		"rules": {
+			"no-unused-vars": "warn"
+		}
   },
   "devDependencies": {
     "@babel/core": "^7.9.0"
