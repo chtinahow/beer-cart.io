@@ -8,6 +8,7 @@ const html = registerHtml({
 
 export default (props, children) => {
 	const [, setConversationToast] = useGlobalObservable('conversation-toast', false)
+	const [currentConversation] = useGlobalObservable('current-conversation-data', { users: [] })
 
 	// We will have a hook to get users and a link of a room
 	const { users, link } = props
@@ -20,6 +21,8 @@ export default (props, children) => {
 	const openHangout = async () => {
 		window.open(link, '_blank', 'noreferrer,toolbar=0,status=0,width=626,height=436')
 		setConversationToast(true)
+		currentConversation.link = link
+		currentConversation.users = users
 	}
 
 	const conversationTitle = isNoGroup ? 'Not in a conversation' : userNameString

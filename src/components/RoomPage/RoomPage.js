@@ -15,31 +15,32 @@ export default (props, children) => {
 	const [roomData] = useGlobalObservable('room-data', {})
 
 	// get room data hook
-	// useEffect(async () => {
-	// 	const [roomData] = useGlobalObservable('room-data')
-	// 	if (roomData[roomId] === undefined) {
-	// 		// TODO abstract out this fetch logic
-	// 		const roomResponse = await fetch(`/api/getRoom/${roomId}`)
-	// 		if (roomResponse.status === 200) {
-	// 			roomData[roomId] = await roomResponse.json()
-	// 		} else {
-	// 			goToHomepage()
-	// 		}
-	// 	}
-	// })
+	useEffect(async () => {
+		const [roomData] = useGlobalObservable('room-data')
+		if (roomData[roomId] === undefined) {
+			// TODO abstract out this fetch logic
+			const roomResponse = await fetch(`/api/getRoom/${roomId}`)
+			if (roomResponse.status === 200) {
+				roomData[roomId] = await roomResponse.json()
+			} else {
+				goToHomepage()
+			}
+		}
+	})
 
 	// join room hook
 	useEffect(async () => {
-		// const { isSignedIn } = useGoogleOAuthSignedInStatus()
 		const [isSignedIn] = useGlobalObservable('gapi.isSignedIn', false)
 
-		console.log(isSignedIn)
 		if (!isSignedIn) return
 		const user = getUserObject()
-		const joinRoomRequest = await fetch(`/api/joinRoom/${roomId}`, { method: 'POST', body: JSON.stringify({
-			roomId, user
-		}) })
-		console.log(joinRoomRequest)
+		const joinRoomRequest = await fetch(`/api/joinRoom/${roomId}`, {
+			method: 'POST', body: JSON.stringify({
+				roomId, user
+			})
+		})
+		const responseJSON = await joinRoomRequest.json()
+		console.log(responseJSON)
 	})
 
 	// if we don't have the room data yet, showing a loading indicator

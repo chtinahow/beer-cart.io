@@ -1,6 +1,13 @@
 .InConversationToast {
-    display: flex;
     .alert-border {
     	border: 1px solid #42a5f5;
+    }
+    .toast-content {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+    button {
+        margin: 0;
     }
 }
