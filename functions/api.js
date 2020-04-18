@@ -49,8 +49,9 @@ const joinRoom = database => async (request, response) => {
 	if (!room) return
 	const { ref: roomRef, data: roomData } = room
 
-	const allUsers = roomData.conversations.flatMap(conv => conv.users).map(user => user.email)
-	if (allUsers.includes(user.email)) {
+	const allUsers = roomData.conversations.map(conv => conv.users).reduce((users, convUsers) => users.concat(convUsers))
+	const allEmails = allUsers.map(user => user.email)
+	if (allEmails.includes(user.email)) {
 		response.send(roomData)
 		return
 	}
