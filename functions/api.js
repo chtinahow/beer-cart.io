@@ -81,7 +81,7 @@ const createConversation = database => async (request, response) => {
 	const { ref: roomRef, data: roomData } = room
 
 	// find the conversation that the user is already in
-	const isUserInConversation = conversation => conversation.users.map(convUser => convUser.email).includes(user.email)
+	const isUserInConversation = conversation => conversation.users.map(convUser => convUser.email).indexOf(user.email) !== -1
 	const usersExistingConversation = roomData.conversations.find(isUserInConversation)
 
 	// update existing user's conversation to not have user
