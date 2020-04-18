@@ -1,6 +1,6 @@
 const admin = require('firebase-admin')
 const functions = require('firebase-functions')
-const { getRoom, joinRoom, joinConversation, leaveConversation } = require('./api')
+const { getRoom, joinRoom, joinConversation, createConversation, leaveConversation } = require('./api')
 const mockData = require('./mock-data')
 
 // get access to firestorm database
@@ -24,5 +24,7 @@ exports.getRoom = functions.https.onRequest(getRoom(db))
 exports.joinRoom = functions.https.onRequest(joinRoom(db))
 
 exports.joinConversation = functions.https.onRequest(joinConversation(db))
+
+exports.createConversation = functions.https.onRequest(createConversation(db))
 
 exports.leaveConversation = functions.https.onRequest(leaveConversation(db))

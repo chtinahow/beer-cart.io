@@ -16,6 +16,19 @@ const getRoomRefAndData = async (database, roomId, response) => {
 	return null
 }
 
+// remove all empty conversations from the database
+const cleanupEmptyConversations = roomData => {
+	// find conversations that are empty (don't include no-conversation)
+	const hasNoUsers = conversation => conversation.users.length === 0 && conversation.link !== ''
+	const emptyConversations = roomData.conversations
+		.map((conv, index) => ({ index, conv }))
+		.filter(({ conv }) => hasNoUsers(conv))
+
+	// we are removing from the back, so that splice does not remove a good conversation
+	const removeConversation = ({ index }) => roomData.conversations.splice(index, 1)
+	emptyConversations.reverse().forEach(removeConversation)
+}
+
 const getRoom = database => async (request, response) => {
 	const roomId = request.url.split('/').slice(-1)[0]
 	const room = await getRoomRefAndData(database, roomId, response)
@@ -58,6 +71,36 @@ const leaveRoom = (request, response) => {
 	// update whatever conversation to not have the user
 }
 
+const createConversation = database => async (request, response) => {
+	// read request body to get the user and conversation information
+	const { roomId, user, conversationLink } = JSON.parse(request.body)
+
+	const room = await getRoomRefAndData(database, roomId, response)
+	if (!room) return
+	const { ref: roomRef, data: roomData } = room
+
+	// find the conversation that the user is already in
+	const isUserInConversation = conversation => conversation.users.map(convUser => convUser.email).includes(user.email)
+	const usersExistingConversation = roomData.conversations.find(isUserInConversation)
+
+	// update existing user's conversation to not have user
+	const userIndex = usersExistingConversation.users.findIndex(convUser => convUser.email === user.email)
+	usersExistingConversation.users.splice(userIndex, 1)
+
+	// cleanup if they were the last one out
+	cleanupEmptyConversations(roomData)
+
+	// create the new conversation
+	roomData.conversations.push({
+		link: conversationLink,
+		users: [user]
+	})
+
+	await roomRef.set(roomData)
+
+	response.send(roomData)
+}
+
 const joinConversation = database => async (request, response) => {
 	// read request body to get the user and conversation information
 	const { roomId, user, conversationLink } = JSON.parse(request.body)
@@ -73,6 +116,9 @@ const joinConversation = database => async (request, response) => {
 	// update existing user's conversation to not have user
 	const userIndex = usersExistingConversation.users.findIndex(convUser => convUser.email === user.email)
 	usersExistingConversation.users.splice(userIndex, 1)
+
+	// cleanup if they were the last one out
+	cleanupEmptyConversations(roomData)
 
 	// find the conversation that they want to be in
 	const selectedConversation = roomData.conversations.find(conv => conv.link === conversationLink)
@@ -106,6 +152,9 @@ const leaveConversation = database => async (request, response) => {
 	const userIndex = usersExistingConversation.users.findIndex(convUser => convUser.email === user.email)
 	usersExistingConversation.users.splice(userIndex, 1)
 
+	// cleanup if they were the last one out
+	cleanupEmptyConversations(roomData)
+
 	// update the no-group conversation to have user
 	const emptyConversation = roomData.conversations.find(conv => conv.link === '')
 
@@ -117,5 +166,5 @@ const leaveConversation = database => async (request, response) => {
 }
 
 module.exports = {
-	getRoom, createRoom, joinRoom, leaveRoom, joinConversation, leaveConversation
+	getRoom, createRoom, joinRoom, leaveRoom, joinConversation, createConversation, leaveConversation
 }

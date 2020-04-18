@@ -1,5 +1,5 @@
 import { registerHtml, useGlobalObservable, useUrlParams } from 'tram-one'
-import { getUserObject } from '../GoogleAPI'
+import { getUserObject, createNewHangoutLink } from '../GoogleAPI'
 import AvatarGroup from '../AvatarGroup'
 import './Conversation.scss'
 
@@ -10,6 +10,7 @@ const html = registerHtml({
 export default (props, children) => {
 	const [, setConversationToast] = useGlobalObservable('conversation-toast', false)
 	const [currentConversation] = useGlobalObservable('current-conversation-data', { users: [] })
+	const [roomData] = useGlobalObservable('room-data', {})
 
 	const { roomId } = useUrlParams('/room/:roomId')
 
@@ -22,8 +23,6 @@ export default (props, children) => {
 	const userNameString = users.length > 3 ? users.slice(0, 3).map(user => user.name).join(', ') + ` and ${users.length - 3} others` : users.map(user => user.name).join(', ')
 
 	const openHangout = async () => {
-		const [roomData] = useGlobalObservable('room-data', {})
-
 		window.open(link, '_blank', 'noreferrer,toolbar=0,status=0,width=626,height=436')
 		setConversationToast(true)
 		currentConversation.link = link
@@ -39,10 +38,29 @@ export default (props, children) => {
 		roomData[roomId] = await joinRoomRequest.json()
 	}
 
+	const createHangout = async () => {
+		const newConversationLink = await createNewHangoutLink()
+		window.open(newConversationLink, '_blank', 'noreferrer,toolbar=0,status=0,width=626,height=436')
+
+		const user = getUserObject()
+
+		setConversationToast(true)
+		currentConversation.link = newConversationLink
+		currentConversation.users = [user]
+
+		// update the server that we created the conversation
+		const joinRoomRequest = await fetch(`/api/createConversation/${roomId}`, {
+			method: 'POST', body: JSON.stringify({
+				roomId, user, conversationLink: newConversationLink
+			})
+		})
+		roomData[roomId] = await joinRoomRequest.json()
+	}
+
 	const conversationTitle = isNoGroup ? 'Not in a conversation' : userNameString
 
 	const joinConversationButton = html`<button class="button-primary" onclick=${openHangout}>Join Conversation</button>`
-	const createConversationButton = html`<button class="button-info" onclick=${openHangout}>Create Conversation</button>`
+	const createConversationButton = html`<button class="button-info" onclick=${createHangout}>Create Conversation</button>`
 	const conversationAction = isNoGroup ? createConversationButton : joinConversationButton
 
 	return html`
