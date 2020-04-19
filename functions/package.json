@@ -8,6 +8,7 @@
     "start": "npm run shell",
     "deploy:functions": "firebase deploy --only functions",
     "deploy:hosting": "firebase deploy --only hosting",
+    "deploy:firestore": "firebase deploy --only firestore",
     "deploy:all": "firebase deploy",
     "logs": "firebase functions:log"
   },

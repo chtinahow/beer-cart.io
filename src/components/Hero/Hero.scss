@@ -1,3 +1,15 @@
 .Hero {
-    grid-area: hero;
+	grid-area: hero;
+
+	.subtitle {
+		font-size: 1.8em;
+	}
+
+	.hero-actions {
+		text-align: center;
+		button {
+			margin-left: 0.8em;
+			font-size: 1.3em;
+		}
+	}
 }

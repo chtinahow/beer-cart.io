@@ -5,12 +5,12 @@ import Hero from '../Hero'
 import './HomePage.scss'
 
 const html = registerHtml({
-  ConversationPreview, GoogleAPI, Hero
+	ConversationPreview, GoogleAPI, Hero
 })
 
 export default (props, children) => {
-  return html`
-    <div class="HomePage">
+	return html`
+    <div class="HomePage Page">
       <Hero />
       <ConversationPreview />
     </div>

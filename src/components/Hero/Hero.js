@@ -16,11 +16,16 @@ export default (props, children) => {
 	}
 
 	return html`
-    <header class="Hero">
-      <h1 class="title">BeercartIO is a lobby for your virtual hangouts</h1>
-      <h2 class="subtitle">Works with Google Hangouts and Google Hangouts Meet</h2>
-      <button onclick=${onCreateRoom} class="button button-primary">Create a Room</button>
-      <button onclick=${onJoinRoom} class="button button-info">Join a Room</button>
-    </header>
+    <div class="Hero">
+      <h1 class="title">beer-cart.io is a lobby for your virtual hangouts</h1>
+      <p class="subtitle">
+				Start organized and casual virtual sessions with groups large and small!
+				Works with Google Hangouts and Google Hangouts Meet.
+			</p>
+			<div class="hero-actions">
+				<button onclick=${onCreateRoom} class="button button-info">Create a Room</button>
+				<button onclick=${onJoinRoom} class="button button-primary">Join a Room</button>
+			</div>
+    </div>
   `
 }
