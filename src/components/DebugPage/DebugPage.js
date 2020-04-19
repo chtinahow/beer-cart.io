@@ -22,7 +22,7 @@ export default () => {
 	}
 
 	return html`
-    <div class="DebugPage">
+    <div class="DebugPage Page">
 			<h1>Debug Page</h1>
 			<button onclick=${signIn}>Sign In</button>
 			${isSignedIn ? 'Signed In' : 'Not Signed In'}

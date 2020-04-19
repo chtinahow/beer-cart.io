@@ -60,7 +60,7 @@ export default (props, children) => {
 	)
 
 	return html`
-    <div class="RoomPage">
+    <div class="RoomPage Page">
       <InConversationToast />
       <h1>${roomData[roomId].roomName}</h1>
       <div class="conversation-grid">

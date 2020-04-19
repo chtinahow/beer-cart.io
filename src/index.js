@@ -8,17 +8,21 @@ import RoomPage from './components/RoomPage'
 import GoogleAPI from './components/GoogleAPI'
 import JoinRoomPrompt from './components/JoinRoomPrompt'
 import CreateRoomPrompt from './components/CreateRoomPrompt'
+import PrivacyPolicyPage from './components/PrivacyPolicyPage'
 import './styles.scss'
 import 'mustard-ui'
 
 const html = registerHtml({
-	HomePage, DebugPage, RoomPage, GoogleAPI, JoinRoomPrompt, CreateRoomPrompt, LoginHeader
+	HomePage, DebugPage, RoomPage, GoogleAPI, JoinRoomPrompt, CreateRoomPrompt, LoginHeader, PrivacyPolicyPage
 })
 
 const home = () => {
 	const router = () => {
 		if (useUrlParams('/debug')) {
 			return html`<DebugPage />`
+		}
+		if (useUrlParams('/policy')) {
+			return html`<PrivacyPolicyPage />`
 		}
 		if (useUrlParams('/room/:roomId')) {
 			return html`<RoomPage />`

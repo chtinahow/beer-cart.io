@@ -16,4 +16,4 @@ node_modules
 .firebase
 
 # api
-src/components/GoogleAPI/access.json
+**/GoogleAPI/access*
