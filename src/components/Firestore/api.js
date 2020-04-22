@@ -13,10 +13,6 @@ export const cleanupEmptyConversations = roomData => {
 	emptyConversations.reverse().forEach(removeConversation)
 }
 
-export const createRoom = roomTitle => {
-
-}
-
 export const resetMockData = roomRef => {
 	const mockUsers = {
 		kai: { name: 'Kai', avatar: 'https://scontent.fphl1-1.fna.fbcdn.net/v/t1.0-1/p160x160/70126637_2547330071992156_5555417816577867776_o.jpg?_nc_cat=100&_nc_sid=dbb9e7&_nc_ohc=sGaQoJNroMsAX8pJH25&_nc_ht=scontent.fphl1-1.fna&_nc_tp=6&oh=eb13e5342e18c114f0e347236c75baf1&oe=5EB78DD1' },
