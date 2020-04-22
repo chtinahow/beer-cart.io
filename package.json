@@ -13,6 +13,7 @@
     "@testing-library/jest-dom": "^4.2.4",
     "core-js": "^3.3.1",
     "eslint-config-tram-one": "^4.0.0",
+    "firebase": "^7.14.1",
     "jest": "^24.8.0",
     "jest-environment-jsdom-fourteen": "^1.0.1",
     "jest-transform-css": "^2.0.0",
@@ -40,10 +41,10 @@
     ],
     "globals": [
       "gapi"
-		],
-		"rules": {
-			"no-unused-vars": "warn"
-		}
+    ],
+    "rules": {
+      "no-unused-vars": "warn"
+    }
   },
   "devDependencies": {
     "@babel/core": "^7.9.0"

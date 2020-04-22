@@ -1,4 +1,5 @@
 import { registerHtml, useGlobalObservable, useObservable } from 'tram-one'
+import { checkDatabase } from '../Firestore'
 import './JoinRoomPrompt.scss'
 
 const html = registerHtml()
@@ -7,7 +8,7 @@ const goToRoomPage = room => window.history.pushState({}, '', `/room/${room}`)
 
 export default (props, children) => {
 	const [showJoinPrompt, setJoinPrompt] = useGlobalObservable('join-prompt', false)
-	const [roomData] = useGlobalObservable('room-data', {})
+	const [roomData] = useGlobalObservable('room-data')
 	const [isJoining, setIsJoining] = useObservable(false)
 	const [isValidRoom, setIsValidRoom] = useObservable(true)
 	const [roomId, setRoomId] = useObservable('')
@@ -28,20 +29,17 @@ export default (props, children) => {
 		const formRoomId = form.roomId.value
 		setRoomId(formRoomId)
 
-		const roomResponse = await fetch(`/api/getRoom/${formRoomId}`)
+		const databaseRef = await checkDatabase(formRoomId).get()
 		setIsJoining(false)
 
-		if (roomResponse.status === 404) {
+		if (!databaseRef.exists) {
 			setIsValidRoom(false)
 			return
 		}
 
-		if (roomResponse.status === 200) {
-			roomData[formRoomId] = await roomResponse.json()
-			goToRoomPage(formRoomId)
-			setIsValidRoom(true)
-			setJoinPrompt(false)
-		}
+		goToRoomPage(formRoomId)
+		setIsValidRoom(true)
+		setJoinPrompt(false)
 	}
 
 	if (!showJoinPrompt) {

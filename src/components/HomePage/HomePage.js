@@ -13,6 +13,7 @@ export default (props, children) => {
     <div class="HomePage Page">
       <Hero />
       <ConversationPreview />
+			${children}
     </div>
   `
 }

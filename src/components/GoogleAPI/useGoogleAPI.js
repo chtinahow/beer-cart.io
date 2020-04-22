@@ -13,9 +13,11 @@ const clientOptions = {
 // this is triggered onLoad, after the gapi script has been loaded
 export const initializeClient = async () => {
 	const [, setSignedIn] = useGlobalObservable('gapi.isSignedIn', false)
+	const [, setIsGoogleInitialized] = useGlobalObservable('gapi.setIsGoogleInitialized', false)
 
 	try {
 		await gapi.client.init(clientOptions)
+		setIsGoogleInitialized(true)
 
 		// Listen for sign-in state changes.
 		gapi.auth2.getAuthInstance().isSignedIn.listen(setSignedIn)

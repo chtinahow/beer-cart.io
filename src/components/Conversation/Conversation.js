@@ -1,5 +1,6 @@
 import { registerHtml, useGlobalObservable, useUrlParams } from 'tram-one'
 import { getUserObject, createNewHangoutLink } from '../GoogleAPI'
+import { createConversation, joinConversation } from '../Firestore'
 import AvatarGroup from '../AvatarGroup'
 import './Conversation.scss'
 
@@ -10,7 +11,7 @@ const html = registerHtml({
 export default (props, children) => {
 	const [, setConversationToast] = useGlobalObservable('conversation-toast', false)
 	const [currentConversation] = useGlobalObservable('current-conversation-data', { users: [] })
-	const [roomData] = useGlobalObservable('room-data', {})
+	const [roomData] = useGlobalObservable('room-data')
 
 	const { roomId } = useUrlParams('/room/:roomId')
 
@@ -29,19 +30,18 @@ export default (props, children) => {
 		currentConversation.users = users
 
 		// update the server that we joined the conversation
+		const [roomData] = useGlobalObservable('room-data')
+		const [roomRef] = useGlobalObservable('room-ref')
 		const user = getUserObject()
-		const joinRoomRequest = await fetch(`/api/joinConversation/${roomId}`, {
-			method: 'POST', body: JSON.stringify({
-				roomId, user, conversationLink: link
-			})
-		})
-		roomData[roomId] = await joinRoomRequest.json()
+		joinConversation(roomData, roomRef, user, link)
 	}
 
 	const createHangout = async () => {
 		const newConversationLink = await createNewHangoutLink()
 		window.open(newConversationLink, '_blank', 'noreferrer,toolbar=0,status=0,width=626,height=436')
 
+		const [roomData] = useGlobalObservable('room-data')
+		const [roomRef] = useGlobalObservable('room-ref')
 		const user = getUserObject()
 
 		setConversationToast(true)
@@ -49,12 +49,7 @@ export default (props, children) => {
 		currentConversation.users = [user]
 
 		// update the server that we created the conversation
-		const joinRoomRequest = await fetch(`/api/createConversation/${roomId}`, {
-			method: 'POST', body: JSON.stringify({
-				roomId, user, conversationLink: newConversationLink
-			})
-		})
-		roomData[roomId] = await joinRoomRequest.json()
+		createConversation(roomData, roomRef, user, newConversationLink)
 	}
 
 	const conversationTitle = isNoGroup ? 'Not in a conversation' : userNameString

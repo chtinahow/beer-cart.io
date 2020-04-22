@@ -1,5 +1,6 @@
 import { registerHtml, useGlobalObservable, useUrlParams } from 'tram-one'
 import { getUserObject } from '../GoogleAPI'
+import { leaveConversation } from '../Firestore'
 import './InConversationToast.scss'
 
 const html = registerHtml()
@@ -17,27 +18,22 @@ export default (props, children) => {
 	const openHangout = async () => {
 		window.open(currentConversation.link, '_blank', 'noreferrer,toolbar=0,status=0,width=626,height=436')
 		setConversationToast(true)
-		fetch()
 	}
 
-	const leaveConversation = async () => {
-		const [roomData] = useGlobalObservable('room-data', {})
+	const onLeaveConversation = async () => {
+		const [roomData] = useGlobalObservable('room-data')
+		const [roomRef] = useGlobalObservable('room-ref', {})
 
 		// update the server that we joined the conversation
 		const user = getUserObject()
-		const leaveRoomRequest = await fetch(`/api/leaveConversation/${roomId}`, {
-			method: 'POST', body: JSON.stringify({
-				roomId, user
-			})
-		})
-		roomData[roomId] = await leaveRoomRequest.json()
+		leaveConversation(roomData, roomRef, user)
 		setConversationToast(false)
 	}
 
 	const conversationButtons = html`
 		<div class="button-group">
 			<button class="button-info-text" onclick=${openHangout}>Rejoin</button>
-			<button class="button-danger-text" onclick=${leaveConversation}>Leave</button>
+			<button class="button-danger-text" onclick=${onLeaveConversation}>Leave</button>
 		</div>
 	`
 

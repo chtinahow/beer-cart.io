@@ -13,7 +13,7 @@ export default () => {
 			<div class="nav-container">
 					<div class="nav-logo">
 							<img src=${BeerMug} width="50" height="50" />
-							<a href="/">BeercartIO</a>
+							<a href="/">beer-cart.io</a>
 					</div>
 					<LoginControl />
 			</div>
