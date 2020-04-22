@@ -1,5 +1,5 @@
 import { registerHtml, useGlobalObservable, useObservable } from 'tram-one'
-import { checkDatabase } from '../Firestore'
+import { getRoom } from '../Firestore'
 import './JoinRoomPrompt.scss'
 
 const html = registerHtml()
@@ -29,7 +29,7 @@ export default (props, children) => {
 		const formRoomId = form.roomId.value
 		setRoomId(formRoomId)
 
-		const databaseRef = await checkDatabase(formRoomId).get()
+		const databaseRef = await getRoom(formRoomId).get()
 		setIsJoining(false)
 
 		if (!databaseRef.exists) {

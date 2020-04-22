@@ -13,9 +13,8 @@ export const cleanupEmptyConversations = roomData => {
 	emptyConversations.reverse().forEach(removeConversation)
 }
 
-export const createRoom = () => {
-	// read the request body to read the room title
-	// generate room
+export const createRoom = roomTitle => {
+
 }
 
 export const resetMockData = roomRef => {

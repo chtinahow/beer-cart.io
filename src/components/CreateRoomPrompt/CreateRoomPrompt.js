@@ -1,30 +1,31 @@
 import { registerHtml, useGlobalObservable } from 'tram-one'
+import { createRoom } from '../Firestore'
 import './CreateRoomPrompt.scss'
 
 const html = registerHtml()
 
 const goToRoomPage = room => window.history.pushState({}, '', `/room/${room}`)
 
-
 export default (props, children) => {
 	const [showCreatePrompt, setCreatePrompt] = useGlobalObservable('create-prompt', false)
 
-  const onDismiss = () => {
+	const onDismiss = () => {
 		setCreatePrompt(false)
 	}
 
-	const onCreateRoom = event => {
+	const onCreateRoom = async event => {
 		event.preventDefault()
 		const form = event.target
-		goToRoomPage(form.roomName.value)
+		const roomId = await createRoom(form.roomName.value)
+		goToRoomPage(roomId)
 		setCreatePrompt(false)
 	}
 
-  if (!showCreatePrompt) {
+	if (!showCreatePrompt) {
 		return html`<div class="CreateRoomPrompt" />`
 	}
 
-  return html`
+	return html`
     <div class="CreateRoomPrompt">
     <div class="modal-mask">
         <div class="modal">

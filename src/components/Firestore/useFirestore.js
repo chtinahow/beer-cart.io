@@ -1,9 +1,6 @@
 import { useEffect, useGlobalObservable } from 'tram-one'
-import firebase from 'firebase/app'
-import 'firebase/firestore'
+import { initializeFirebase, getRoom } from './firebase'
 // import { resetMockData } from './api'
-
-export const checkDatabase = roomId => firebase.firestore().collection('rooms').doc(roomId)
 
 export const initializeApp = async () => {
 	const [isFirebaseInitialized, setIsFirebaseInitialized] = useGlobalObservable('firebase-intialized', false)
@@ -12,8 +9,7 @@ export const initializeApp = async () => {
 	if (isFirebaseInitialized) return
 
 	// fetch the config from the hosted access information
-	const config = await (await fetch('/__/firebase/init.json')).json()
-	await firebase.initializeApp(config)
+	await initializeFirebase()
 
 	// const ref = firebase.firestore().collection('rooms').doc('cr-1234')
 	// resetMockData(ref)
@@ -30,8 +26,7 @@ export default roomId => {
 		const [isFirebaseInitialized] = useGlobalObservable('firebase-intialized', false)
 
 		if (!isFirebaseInitialized) return
-		const db = firebase.firestore()
-		const ref = db.collection('rooms').doc(roomId)
+		const ref = getRoom(roomId)
 		setRoomRef(ref)
 
 		ref.onSnapshot(doc => {
