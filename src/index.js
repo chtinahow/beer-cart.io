@@ -49,11 +49,13 @@ const home = () => {
 
 	const currentPage = router()
 	return html`
-		<div>
+		<div class="app-container">
 			<GoogleAPI />
 			<Firestore />
 			<LoginHeader />
-			${currentPage}
+			<div class="page-content">
+				${currentPage}
+			</div>
 			<JoinRoomPrompt />
 			<CreateRoomPrompt />
 			<PageFooter />
