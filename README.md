@@ -1,4 +1,4 @@
-# beercart.io
+# beer-cart.io
 
 ## Development instructions
 1. In the root directory, run `npm install` to install all the project dependencies
@@ -18,4 +18,3 @@ and will watch for changes
 - `npm test` - runs tests in
 [Jest](https://jestjs.io/)
 - `npm run lint` - runs linting on the project based on [xo](https://github.com/xojs/xo) and the [tram-one-eslint-config](https://github.com/Tram-One/eslint-config-tram-one)
-# beercart.io

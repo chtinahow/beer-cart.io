@@ -12,7 +12,7 @@ describe('app', () => {
 	})
 
 	it('should mount the app with a header', () => {
-		expect(getByRole(document, 'heading').innerHTML).toMatch('beercart.io')
+		expect(getByRole(document, 'heading').innerHTML).toMatch('beer-cart.io')
 	})
 
 	it('should update the color on click', () => {
