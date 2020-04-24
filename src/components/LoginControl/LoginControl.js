@@ -4,9 +4,10 @@ import { leaveRoom } from '../Firestore'
 import LoadingIndicator from '../LoadingIndicator'
 import HomePage from '../HomePage'
 import Avatar from '../Avatar'
+import FeedbackControl from '../FeedbackControl'
 import './LoginControl.scss'
 
-const html = registerHtml({ Avatar, LoadingIndicator, HomePage })
+const html = registerHtml({ Avatar, LoadingIndicator, HomePage, FeedbackControl })
 
 export default () => {
 	const { isSignedIn, setIsSignedIn } = useGoogleOAuthSignedInStatus()
@@ -28,6 +29,7 @@ export default () => {
 		return html`
 			<div class="LoginControl">
 				<LoadingIndicator />
+				<FeedbackControl />
 			</div>
 		`
 	}
@@ -41,6 +43,7 @@ export default () => {
 					<option> ${user.name}</option>
 					<option>Log out</option>
 				</select>
+				<FeedbackControl />
 			</div>
 		`
 	}
@@ -50,6 +53,7 @@ export default () => {
 			<select class="login-action" onclick=${signIn}>
 				<option>Sign In</option>
 			</select>
+			<FeedbackControl />
 		</div>
   `
 }

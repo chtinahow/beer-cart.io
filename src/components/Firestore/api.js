@@ -65,7 +65,7 @@ export const joinRoom = (roomData, roomRef, user) => {
 	roomRef.set(roomDataCopy)
 }
 
-export const leaveRoom = (roomData, roomRef, user) => {
+export const leaveRoom = async (roomData, roomRef, user) => {
 	// don't do anything if the user is not already in the room
 	if (!isInRoom(roomData, user)) return
 
@@ -83,7 +83,12 @@ export const leaveRoom = (roomData, roomRef, user) => {
 	cleanupEmptyConversations(roomDataCopy)
 
 	console.log(`removing ${user.name} from the room`)
-	roomRef.set(roomDataCopy)
+	try {
+		const doc = await roomRef.set(roomDataCopy)
+		console.log(doc)
+	} catch (error) {
+		console.error(error)
+	}
 }
 
 export const createConversation = (roomData, roomRef, user, conversationLink) => {

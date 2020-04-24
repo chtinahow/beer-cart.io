@@ -11,10 +11,10 @@ export default () => {
 	return html`
     <nav class="LoginHeader">
 			<div class="nav-container">
-					<div class="nav-logo">
+					<a href="/" class="nav-logo">
 							<img src=${BeerMug} width="50" height="50" />
-							<a href="/">beer-cart.io</a>
-					</div>
+							beer-cart.io
+					</a>
 					<LoginControl />
 			</div>
 		</nav>

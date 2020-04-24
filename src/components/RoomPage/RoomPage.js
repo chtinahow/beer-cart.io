@@ -3,7 +3,7 @@ import { getUserObject } from '../GoogleAPI'
 import Conversation from '../Conversation'
 import LoadingPage from '../LoadingPage'
 import InConversationToast from '../InConversationToast'
-import { useFirestore, joinRoom, leaveRoom, isInRoom } from '../Firestore'
+import { useFirestore, joinRoom, leaveRoom } from '../Firestore'
 import './RoomPage.scss'
 
 const html = registerHtml({
@@ -15,8 +15,6 @@ const goToHomepage = () => window.history.pushState({}, '', '/')
 export default (props, children) => {
 	const { roomId } = useUrlParams('/room/:roomId')
 	const [roomData] = useGlobalObservable('room-data')
-	const [roomRef] = useGlobalObservable('room-ref')
-	const user = getUserObject()
 
 	useFirestore(roomId)
 
