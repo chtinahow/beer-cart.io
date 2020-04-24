@@ -2,6 +2,7 @@
 	font-family: 'Fira Sans Condensed', sans-serif!important;
 }
 
+// make apps take 100% of the height so the footer renders correctly
 .app-container {
 	min-height: 100vh;
 	display: flex;
@@ -12,9 +13,22 @@
 	}
 }
 
+// give all pages padding
 .Page {
 	padding: 1em;
 	max-width: 1200px;
 	margin: 2em auto;
 	flex-grow: 1;
+}
+
+// make modals wider
+.modal {
+	min-width: 400px;
+	width: 55%;
+}
+
+// force primary color for type=submit
+.button-primary {
+	background-color: green !important;
+	color: white !important;
 }

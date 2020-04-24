@@ -13,7 +13,7 @@ const clientOptions = {
 // this is triggered onLoad, after the gapi script has been loaded
 export const initializeClient = async () => {
 	const [, setSignedIn] = useGlobalObservable('gapi.isSignedIn', false)
-	const [, setIsGoogleInitialized] = useGlobalObservable('gapi.setIsGoogleInitialized', false)
+	const [, setIsGoogleInitialized] = useGlobalObservable('gapi.isGoogleInitialized', false)
 
 	try {
 		await gapi.client.init(clientOptions)
@@ -44,8 +44,8 @@ export const getUserObject = () => {
 }
 
 export const useGoogleOAuthSignedInStatus = () => {
-	const [isSignedIn] = useGlobalObservable('gapi.isSignedIn', false)
-	return { isSignedIn }
+	const [isSignedIn, setIsSignedIn] = useGlobalObservable('gapi.isSignedIn', false)
+	return { isSignedIn, setIsSignedIn }
 }
 
 // calendar actions

@@ -1,0 +1,11 @@
+.LoadingIndicator {
+	width: 100%;
+
+	// make this have the same background as page
+	background: inherit !important;
+
+	.progress-bar-green {
+		// make this have a semi-transparent color
+		background: #00000033 !important;
+	}
+}

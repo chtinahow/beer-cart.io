@@ -36,13 +36,23 @@ export const resetMockData = roomRef => {
 	roomRef.set(mockData)
 }
 
-export const joinRoom = (roomData, roomRef, user) => {
-	const roomDataCopy = raw(roomData)
-	const allUsers = roomDataCopy.conversations.flatMap(conv => conv.users)
+export const isInRoom = (roomData, user) => {
+	// if roomData or user are undefined, return false
+	if (!roomData || !user) return false
+
+	// read the room and see if the email is already in the room
+	const allUsers = roomData.conversations.flatMap(conv => conv.users)
 	const allEmails = allUsers.map(user => user.email)
-	if (allEmails.includes(user.email)) {
+	return allEmails.includes(user.email)
+}
+
+export const joinRoom = (roomData, roomRef, user) => {
+	// don't do anything if the user is already in the room
+	if (isInRoom(roomData, user)) {
 		return
 	}
+
+	const roomDataCopy = raw(roomData)
 
 	// user was not in the room, add them to no-conversation group
 	// search for the conversation that has no link (the no-group)
@@ -50,12 +60,30 @@ export const joinRoom = (roomData, roomRef, user) => {
 
 	// push user by default into this group
 	noLinkConversation.users.push(user)
+
+	console.log(`adding ${user.name} to the room`)
 	roomRef.set(roomDataCopy)
 }
 
 export const leaveRoom = (roomData, roomRef, user) => {
-	// read request body to get the user information
-	// update whatever conversation to not have the user
+	// don't do anything if the user is not already in the room
+	if (!isInRoom(roomData, user)) return
+
+	const roomDataCopy = raw(roomData)
+
+	// find the conversation that the user is already in
+	const isUserInConversation = conversation => conversation.users.map(convUser => convUser.email).includes(user.email)
+	const usersExistingConversation = roomDataCopy.conversations.find(isUserInConversation)
+
+	// update existing user's conversation to not have user
+	const userIndex = usersExistingConversation.users.findIndex(convUser => convUser.email === user.email)
+	usersExistingConversation.users.splice(userIndex, 1)
+
+	// cleanup if they were the last one out
+	cleanupEmptyConversations(roomDataCopy)
+
+	console.log(`removing ${user.name} from the room`)
+	roomRef.set(roomDataCopy)
 }
 
 export const createConversation = (roomData, roomRef, user, conversationLink) => {

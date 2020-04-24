@@ -2,6 +2,7 @@
  * There is no official Hangouts API for creating and deleting hangout calls.
  * However, it is possible to create a calendar event, with conferencing, get the link, and then delete the event
  */
+import { useUrlParams } from 'tram-one'
 import { createEvent, deleteEvent } from './useGoogleAPI'
 
 const eventDetails = {
@@ -39,6 +40,9 @@ export default () => {
 
 				// set the hangout link from the event
 				resolve(event.hangoutLink)
+
+				// if we are in t test room, don't delete the event
+				if (useUrlParams('/room/cr-1234')) return
 
 				// delete the event, leave no traces
 				const deleteRequest = deleteEvent({

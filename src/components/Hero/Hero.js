@@ -17,7 +17,7 @@ export default (props, children) => {
 
 	return html`
     <div class="Hero">
-      <h1 class="title">beer-cart.io is a lobby for your virtual hangouts</h1>
+      <h1 class="title">beer-cart.io is a free lobby for your virtual hangouts</h1>
       <p class="subtitle">
 				Start organized and casual virtual sessions with groups large and small!
 				Works with Google Hangouts and Google Hangouts Meet.

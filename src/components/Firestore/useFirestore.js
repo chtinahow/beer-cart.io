@@ -1,5 +1,6 @@
 import { useEffect, useGlobalObservable } from 'tram-one'
 import { initializeFirebase, getRoom } from './firebase'
+import { leaveRoom } from './api'
 // import { resetMockData } from './api'
 
 export const initializeApp = async () => {
@@ -29,6 +30,7 @@ export default roomId => {
 		const ref = getRoom(roomId)
 		setRoomRef(ref)
 
+		// listen for changes to the firestore and update the global store when that happens
 		ref.onSnapshot(doc => {
 			console.log('SNAPSHOT', doc.data())
 			setRoomData(doc.data())

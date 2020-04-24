@@ -1,11 +1,12 @@
 import 'core-js/stable'
 import 'regenerator-runtime/runtime'
-import { registerHtml, start, useUrlParams, useGlobalObservable, useEffect } from 'tram-one'
+import { registerHtml, start, useUrlParams, useGlobalObservable } from 'tram-one'
 import DebugPage from './components/DebugPage'
 import HomePage from './components/HomePage'
+import LoadingPage from './components/LoadingPage'
 import LoginHeader from './components/LoginHeader'
 import RoomPage from './components/RoomPage'
-import GoogleAPI, { signIn } from './components/GoogleAPI'
+import GoogleAPI from './components/GoogleAPI'
 import GoogleAuthDialog from './components/GoogleAuthDialog'
 import Firestore from './components/Firestore'
 import JoinRoomPrompt from './components/JoinRoomPrompt'
@@ -16,11 +17,11 @@ import './styles.scss'
 import 'mustard-ui'
 
 const html = registerHtml({
-	HomePage, DebugPage, RoomPage, GoogleAPI, GoogleAuthDialog, Firestore, JoinRoomPrompt, CreateRoomPrompt, LoginHeader, PageFooter, PrivacyPolicyPage
+	HomePage, DebugPage, RoomPage, GoogleAPI, GoogleAuthDialog, Firestore, JoinRoomPrompt, CreateRoomPrompt, LoadingPage, LoginHeader, PageFooter, PrivacyPolicyPage
 })
 
 const home = () => {
-	const [isGoogleInitialzed] = useGlobalObservable('gapi.setIsGoogleInitialized')
+	const [isGoogleInitialzed] = useGlobalObservable('gapi.isGoogleInitialized')
 	const [isSignedIn] = useGlobalObservable('gapi.isSignedIn')
 
 	const router = () => {
@@ -33,7 +34,7 @@ const home = () => {
 		if (useUrlParams('/room/:roomId')) {
 			// if the google client hasn't initialized yet, show a loading page
 			if (!isGoogleInitialzed) {
-				return html`<div>Loading.... </div>`
+				return html`<LoadingPage />`
 			}
 
 			// if we are not signed in, start the auth flow
