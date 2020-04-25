@@ -10,13 +10,11 @@ const html = registerHtml({
 export default () => {
 	return html`
     <nav class="LoginHeader">
-			<div class="nav-container">
-					<a href="/" class="nav-logo">
-							<img src=${BeerMug} width="50" height="50" />
-							beer-cart.io
-					</a>
-					<LoginControl />
-			</div>
+			<a href="/" class="nav-logo">
+					<img src=${BeerMug} width="50" height="50" />
+					beer-cart.io
+			</a>
+			<LoginControl />
 		</nav>
   `
 }

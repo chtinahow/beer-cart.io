@@ -29,7 +29,7 @@ export default () => {
 		return html`
 			<div class="LoginControl">
 				<LoadingIndicator />
-				<FeedbackControl />
+				<!-- <FeedbackControl /> -->
 			</div>
 		`
 	}
@@ -43,7 +43,7 @@ export default () => {
 					<option> ${user.name}</option>
 					<option>Log out</option>
 				</select>
-				<FeedbackControl />
+				<!-- <FeedbackControl /> -->
 			</div>
 		`
 	}
@@ -53,7 +53,7 @@ export default () => {
 			<select class="login-action" onclick=${signIn}>
 				<option>Sign In</option>
 			</select>
-			<FeedbackControl />
+			<!-- <FeedbackControl /> -->
 		</div>
   `
 }

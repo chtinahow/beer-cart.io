@@ -1,6 +1,14 @@
 .PageFooter {
-    grid-area: page-footer;
+		grid-area: page-footer;
+
     footer {
+			display: flex;
+			justify-content: space-evenly;
+			background: white;
 			text-align: center;
+			.copyright {
+				color: black;
+				border-top: 0px;
+			}
     }
 }

@@ -6,10 +6,19 @@
 	}
 
 	.hero-actions {
-		text-align: center;
+		margin-top: 2em;
 		button {
-			margin-left: 0.8em;
+			margin-right: 1em;
 			font-size: 1.3em;
+			text-transform: none;
+			font-weight: 600;
+			height: 2.5em;
 		}
+	}
+
+	h1 {
+		font-weight: 900;
+		font-size: 4em;
+		line-height: 1.25em;
 	}
 }

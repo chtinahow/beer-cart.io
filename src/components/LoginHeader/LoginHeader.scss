@@ -1,5 +1,10 @@
 .LoginHeader {
 		grid-area: login-header;
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+		background: rgb(102, 173, 235);
+		height: 85px;
 		img {
 			margin-right: 0.2em;
 		}

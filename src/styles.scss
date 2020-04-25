@@ -1,5 +1,6 @@
 * {
-	font-family: 'Fira Sans Condensed', sans-serif!important;
+	font-family: Raleway !important;
+	// font-family: 'Fira Sans Condensed', sans-serif!important;
 }
 
 // make apps take 100% of the height so the footer renders correctly
@@ -15,7 +16,7 @@
 
 // give all pages padding
 .Page {
-	padding: 1em;
+	padding: 4em 1em;
 	max-width: 1200px;
 	margin: 2em auto;
 	flex-grow: 1;
@@ -27,8 +28,19 @@
 	width: 55%;
 }
 
+button {
+	text-transform: none !important;
+}
+
+// force info color
+.button-info {
+	background-color: #bdbdbd !important;
+	color: white !important;
+}
+
 // force primary color for type=submit
 .button-primary {
-	background-color: green !important;
+	background-color: #66adeb !important;
+	border-color: #66adeb !important;
 	color: white !important;
 }

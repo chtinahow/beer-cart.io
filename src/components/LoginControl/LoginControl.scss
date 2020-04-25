@@ -1,4 +1,15 @@
 .LoginControl {
 	display: flex;
-	width: 35%;
+	align-items: center;
+	span {
+		margin-right: 1em;
+	}
+
+	select {
+		background: #66adeb;
+    border: none;
+    text-decoration: underline;
+    font-size: 1.4em;
+		color: white;
+	}
 }
