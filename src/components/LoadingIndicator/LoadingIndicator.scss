@@ -1,11 +1,19 @@
 .LoadingIndicator {
-	width: 100%;
+	text-align: center;
 
-	// make this have the same background as page
-	background: inherit !important;
+	i {
+		font-size: 3em;
 
-	.progress-bar-green {
-		// make this have a semi-transparent color
-		background: #00000033 !important;
+		-webkit-animation: rotation 2s linear infinite;
+		animation: rotation 2s linear infinite;
+
+		@keyframes rotation {
+			from {
+				transform: rotate(0deg);
+			}
+			to {
+				transform: rotate(359deg);
+			}
+		}
 	}
 }

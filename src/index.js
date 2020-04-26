@@ -15,6 +15,7 @@ import PrivacyPolicyPage from './components/PrivacyPolicyPage'
 import PageFooter from './components/PageFooter'
 import './styles.scss'
 import 'mustard-ui'
+import '@fortawesome/fontawesome-pro/css/all.css'
 
 const html = registerHtml({
 	HomePage, DebugPage, RoomPage, GoogleAPI, GoogleAuthDialog, Firestore, JoinRoomPrompt, CreateRoomPrompt, LoadingPage, LoginHeader, PageFooter, PrivacyPolicyPage

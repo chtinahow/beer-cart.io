@@ -9,6 +9,7 @@
     "deploy": "firebase deploy"
   },
   "dependencies": {
+    "@fortawesome/fontawesome-pro": "^5.13.0",
     "@testing-library/dom": "^6.11.0",
     "@testing-library/jest-dom": "^4.2.4",
     "core-js": "^3.3.1",

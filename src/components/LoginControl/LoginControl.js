@@ -28,7 +28,7 @@ export default () => {
 	if (!isGoogleInitialzed) {
 		return html`
 			<div class="LoginControl">
-				<LoadingIndicator />
+				<LoadingIndicator primary='white' secondary='#00000022' />
 				<!-- <FeedbackControl /> -->
 			</div>
 		`

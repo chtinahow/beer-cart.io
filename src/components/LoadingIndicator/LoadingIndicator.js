@@ -3,10 +3,10 @@ import './LoadingIndicator.scss'
 
 const html = registerHtml()
 
-export default ({ width = 100 }, children) => {
+export default ({ primary = '#66adeb', secondary = '#58585880' }, children) => {
 	return html`
-    <div class="LoadingIndicator progress-bar striped animated">
-      <span class="progress-bar-green" style=${`width: ${width}%`}></span>
+    <div class="LoadingIndicator">
+			<i class="fad fa-spinner-third" style=${`--fa-primary-color: ${primary}; --fa-secondary-color: ${secondary};`}></i>
     </div>
   `
 }
