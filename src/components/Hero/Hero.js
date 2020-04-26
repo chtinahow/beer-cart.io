@@ -20,8 +20,8 @@ export default (props, children) => {
       <h1 class="title">A lobby for your<br/> virtual hangouts</h1>
       <p class="subtitle">
 				Start organized and casual virtual sessions<br/>
-				with groups large and small!
-				Works with Google Hangouts and Google Hangouts Meet.
+				with groups large and small! Works with<br/>
+				Google Hangouts and Google Hangouts Meet.
 			</p>
 			<div class="hero-actions">
 				<button onclick=${onCreateRoom} class="button button-info">Create a Room</button>

@@ -20,6 +20,13 @@
 	max-width: 1200px;
 	margin: 2em auto;
 	flex-grow: 1;
+
+	@media (max-width: 1300px) {
+		font-size: 0.7em;
+		max-width: 900px;
+		padding: 1.9em 0.5em;
+	}
+
 }
 
 // make modals wider
@@ -35,12 +42,21 @@ button {
 // force info color
 .button-info {
 	background-color: #bdbdbd !important;
+	border-color: #bdbdbd !important;
 	color: white !important;
 }
 
-// force primary color for type=submit
+// force primary color
 .button-primary {
 	background-color: #66adeb !important;
 	border-color: #66adeb !important;
 	color: white !important;
+
+	// include this here, since input's can have this style
+	text-transform: none !important;
+}
+
+.modal-head {
+	background: #66adeb;
+	color: white;
 }

@@ -1,6 +1,8 @@
 .LoginControl {
 	display: flex;
 	align-items: center;
+	min-width: 8%;
+
 	span {
 		margin-right: 1em;
 	}
@@ -11,5 +13,6 @@
     text-decoration: underline;
     font-size: 1.4em;
 		color: white;
+		line-height: 2em;
 	}
 }

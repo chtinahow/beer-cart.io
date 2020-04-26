@@ -37,7 +37,7 @@ export default (props, children) => {
 						<div class="modal-body">
 								<div class="form-control">
 										<label for="roomName">Room Name</label>
-										<input type="text" id="roomName" name="roomName" autofocus placeholder="Enter Room Name">
+										<input type="text" id="roomName" name="roomName" autofocus placeholder="Enter Room Name" />
 								</div>
 						</div>
 						<div class="modal-footer CreateRoomPrompt-controls">
