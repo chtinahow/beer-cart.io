@@ -1,6 +1,5 @@
 body, h1, h2, h3, p, span, button, input {
-	font-family: Raleway !important;
-	// font-family: 'Fira Sans Condensed', sans-serif!important;
+	font-family: Raleway;
 }
 
 // make apps take 100% of the height so the footer renders correctly
@@ -36,27 +35,40 @@ body, h1, h2, h3, p, span, button, input {
 }
 
 button {
-	text-transform: none !important;
+	text-transform: none;
 }
 
 // force info color
 .button-info {
-	background-color: #bdbdbd !important;
-	border-color: #bdbdbd !important;
-	color: white !important;
+	background-color: #949494;
+	border-color: #949494;
+	color: white;
 }
 
 // force primary color
 .button-primary {
-	background-color: #66adeb !important;
-	border-color: #66adeb !important;
-	color: white !important;
+	background-color: #66adeb;
+	border-color: #66adeb;
+	color: white;
 
 	// include this here, since input's can have this style
-	text-transform: none !important;
+	text-transform: none;
 }
 
 .modal-head {
 	background: #66adeb;
 	color: white;
+}
+
+label, p {
+	font-size: 1.2em;
+}
+
+.alert {
+	margin-top: -3em;
+	height: 4em;
+
+	.toast-content {
+		height: 100%
+	}
 }

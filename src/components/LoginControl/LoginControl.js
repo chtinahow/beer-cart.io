@@ -14,6 +14,11 @@ export default () => {
 	const [isGoogleInitialzed] = useGlobalObservable('gapi.isGoogleInitialized')
 	const [roomRef] = useGlobalObservable('room-ref')
 	const [roomData] = useGlobalObservable('room-data')
+	const [reversedColorMode, setReversedColorMode] = useGlobalObservable('forced-reverse-color')
+	const [systemPerfersDarkMode] = useGlobalObservable('system-perfers-dark')
+
+	const currentMode = (reversedColorMode ^ systemPerfersDarkMode) ? 'Dark' : 'Light'
+	const oppositeMode = currentMode === 'Dark' ? 'Light' : 'Dark'
 
 	const signOutAndLeave = () => {
 		setIsSignedIn(false)
@@ -22,6 +27,12 @@ export default () => {
 			leaveRoom(roomData, roomRef, user)
 		}
 		signOut()
+	}
+
+	const onSelectAction = event => {
+		const action = event.target.value
+		if (action === 'log-out') signOutAndLeave()
+		if (action === 'swap-color-mode') setReversedColorMode(!reversedColorMode)
 	}
 
 	// if the google client hasn't initialized yet, show a loading page
@@ -39,9 +50,10 @@ export default () => {
 		return html`
 			<div class="LoginControl">
 				<Avatar user=${user} />
-				<select class="login-action" onchange=${signOutAndLeave}>
-					<option> ${user.name}</option>
-					<option>Log out</option>
+				<select class="login-action" onchange=${onSelectAction}>
+					<option value='no-action'> ${user.name}</option>
+					<option value='swap-color-mode'> ${oppositeMode} Mode </option>
+					<option value='log-out'>Log out</option>
 				</select>
 				<!-- <FeedbackControl /> -->
 			</div>

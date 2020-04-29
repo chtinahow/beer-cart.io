@@ -4,11 +4,14 @@
     footer {
 			display: flex;
 			justify-content: space-evenly;
-			background: white;
+			background: inherit;
 			text-align: center;
+			padding: 10px;
+
 			.copyright {
-				color: black;
+				color: inherit;
 				border-top: 0px;
+				font-size: 17px;
 			}
     }
 }
