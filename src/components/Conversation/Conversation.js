@@ -11,6 +11,9 @@ const html = registerHtml({
 export default (props, children) => {
 	const [, setConversationToast] = useGlobalObservable('conversation-toast', false)
 	const [currentConversation] = useGlobalObservable('current-conversation-data', { users: [] })
+	const [roomData] = useGlobalObservable('room-data')
+
+	const { roomId } = useUrlParams('/room/:roomId')
 
 	// We will have a hook to get users and a link of a room
 	const { users, link } = props

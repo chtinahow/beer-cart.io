@@ -26,14 +26,11 @@ const home = () => {
 	const [isGoogleInitialzed] = useGlobalObservable('gapi.isGoogleInitialized')
 	const [isSignedIn] = useGlobalObservable('gapi.isSignedIn')
 
-	const hasReversedColorMode = localStorage.getItem('forced-reverse-color') === 'true'
-
 	// keep forceReverseColorMode in sync with localstorage
 	useEffect(() => {
+		const hasReversedColorMode = localStorage.getItem('forced-reverse-color') === 'true'
 		const [forceReverseColorMode] = useGlobalObservable('forced-reverse-color', hasReversedColorMode)
-		console.log({ forceReverseColorMode })
 		localStorage.setItem('forced-reverse-color', forceReverseColorMode)
-		console.log('storage value', localStorage.getItem('forced-reverse-color'))
 	})
 
 	// effect to read if the system is set in dark mode
@@ -58,11 +55,9 @@ const home = () => {
 	// effect to read if the page should display in dark mode
 	// read if a forced value is set to override
 	useEffect(() => {
-		const [forceReverseColorMode] = useGlobalObservable('forced-reverse-color', hasReversedColorMode)
+		const [forceReverseColorMode] = useGlobalObservable('forced-reverse-color')
 		const [systemPerfersDarkMode] = useGlobalObservable('system-perfers-dark')
 
-		console.log({ forceReverseColorMode })
-		console.log({ systemPerfersDarkMode })
 		// update the page
 		document.documentElement.setAttribute('dark-mode', Boolean(forceReverseColorMode ^ systemPerfersDarkMode))
 	})
