@@ -1,13 +1,17 @@
 import { registerHtml, useGlobalObservable } from 'tram-one'
 import { createRoom } from '../Firestore'
+import GoogleAuthDialog from '../GoogleAuthDialog'
 import './CreateRoomPrompt.scss'
 
-const html = registerHtml()
+const html = registerHtml({
+	GoogleAuthDialog
+})
 
 const goToRoomPage = room => window.history.pushState({}, '', `/room/${room}`)
 
 export default (props, children) => {
 	const [showCreatePrompt, setCreatePrompt] = useGlobalObservable('create-prompt', false)
+	const [isSignedIn] = useGlobalObservable('gapi.isSignedIn')
 
 	const onDismiss = () => {
 		setCreatePrompt(false)
@@ -21,8 +25,14 @@ export default (props, children) => {
 		setCreatePrompt(false)
 	}
 
+	// show empty prompt if we haven't been toggled
 	if (!showCreatePrompt) {
 		return html`<div class="CreateRoomPrompt" />`
+	}
+
+	// show Google Auth Dialog if we haven't signed in
+	if (!isSignedIn) {
+		return html`<GoogleAuthDialog onDismiss=${onDismiss} />`
 	}
 
 	return html`

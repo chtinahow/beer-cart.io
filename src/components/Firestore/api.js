@@ -46,6 +46,7 @@ export const isInRoom = (roomData, user) => {
 	return allEmails.includes(user.email)
 }
 
+/* add the current user into the room */
 export const joinRoom = (roomData, roomRef, user) => {
 	// don't do anything if the user is already in the room
 	if (isInRoom(roomData, user)) {
@@ -53,7 +54,7 @@ export const joinRoom = (roomData, roomRef, user) => {
 	}
 
 	const roomDataCopy = raw(roomData)
-
+	console.log('roomdatacopy', roomRef)
 	// user was not in the room, add them to no-conversation group
 	// search for the conversation that has no link (the no-group)
 	const noLinkConversation = roomDataCopy.conversations.find(conv => conv.link === '')

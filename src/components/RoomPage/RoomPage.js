@@ -1,13 +1,14 @@
 import { registerHtml, useUrlParams, useGlobalObservable, useEffect } from 'tram-one'
 import { getUserObject } from '../GoogleAPI'
 import Conversation from '../Conversation'
+import InvalidRoomPage from '../InvalidRoomPage'
 import LoadingPage from '../LoadingPage'
 import InConversationToast from '../InConversationToast'
 import { useFirestore, joinRoom, leaveRoom } from '../Firestore'
 import './RoomPage.scss'
 
 const html = registerHtml({
-	Conversation, InConversationToast, LoadingPage
+	Conversation, InConversationToast, LoadingPage, InvalidRoomPage
 })
 
 const goToHomepage = () => window.history.pushState({}, '', '/')
@@ -15,6 +16,7 @@ const goToHomepage = () => window.history.pushState({}, '', '/')
 export default (props, children) => {
 	const { roomId } = useUrlParams('/room/:roomId')
 	const [roomData] = useGlobalObservable('room-data')
+	const [roomExists] = useGlobalObservable('room-exists')
 
 	useFirestore(roomId)
 
@@ -37,6 +39,11 @@ export default (props, children) => {
 			window.removeEventListener('beforeunload', onLeavePage)
 		}
 	})
+
+	// if the room doesn't exist, show an invalid page prompt
+	if (!roomExists) {
+		return html`<div class="RoomPage"><InvalidRoomPage roomId=${roomId} /></div>`
+	}
 
 	// if we don't have the room data yet, showing a loading indicator
 	if (!roomData) {

@@ -16,6 +16,7 @@ import PageFooter from './components/PageFooter'
 import 'mustard-ui'
 import './dark-mode.scss'
 import './styles.scss'
+import './fonts/font.scss'
 import '@fortawesome/fontawesome-pro/css/all.css'
 
 const html = registerHtml({

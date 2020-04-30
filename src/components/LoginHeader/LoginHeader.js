@@ -1,18 +1,18 @@
 import { registerHtml } from 'tram-one'
 import BeerMug from '../../../clinking-beer-mugs_1f37b.png'
+import Logo from '../Logo'
 import LoginControl from '../LoginControl'
 import './LoginHeader.scss'
 
 const html = registerHtml({
-	LoginControl
+	Logo, LoginControl
 })
 
 export default () => {
 	return html`
     <nav class="LoginHeader">
 			<a href="/" class="nav-logo">
-					<img src=${BeerMug} width="50" height="50" />
-					beer-cart.io
+					<Logo />
 			</a>
 			<LoginControl />
 		</nav>

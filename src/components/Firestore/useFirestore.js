@@ -23,6 +23,9 @@ export default roomId => {
 	const [, setRoomRef] = useGlobalObservable('room-ref')
 	const [, setRoomData] = useGlobalObservable('room-data')
 
+	// assume room exists, until we find out it doesn't
+	const [, setRoomExists] = useGlobalObservable('room-exists', true)
+
 	useEffect(async () => {
 		const [isFirebaseInitialized] = useGlobalObservable('firebase-intialized', false)
 
@@ -32,6 +35,7 @@ export default roomId => {
 
 		// listen for changes to the firestore and update the global store when that happens
 		ref.onSnapshot(doc => {
+			setRoomExists(doc.exists)
 			console.log('SNAPSHOT', doc.data())
 			setRoomData(doc.data())
 		})

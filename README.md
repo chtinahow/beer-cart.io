@@ -6,7 +6,12 @@
 3. Navigate to http://localhost:1234 (or the url provided after running `npm start`)
 4. Open a second terminal
 5. Go to the `/functions` directory, and run `npm install`
-6. Run the emulator for hosting, functions, and the db: `npm run serve:all`
+6. Run the emulator for hosting, functions, and the db: `npm run serve:hosting`
+
+## Deployment Instructions
+1. Run `npm run build`
+2. cd into the `/functions` directory
+3. Run `npm run deploy:hosting`
 
 ## Development commands
 Below are a list of commands used for development. The logic for all the commands is in the local `package.json`
