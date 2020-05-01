@@ -10,7 +10,7 @@ export default (props, children) => {
 				<a class="copyright" href="/about">About</a>
 				<a class="copyright" href="https://tram-one.io/">Created in Tram-One</a>
 				<a class="copyright" href="/policy">Privacy Policy</a>
-				<a class="copyright" href="https://forms.gle/cbJHdpUuQcb9SGRS9">Leave Feedback</a>
+				<a class="copyright" href="https://forms.gle/cbJHdpUuQcb9SGRS9" target="_blank">Leave Feedback</a>
       </footer>
     </div>
   `

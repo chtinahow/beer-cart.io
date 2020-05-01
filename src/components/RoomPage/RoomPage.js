@@ -63,7 +63,8 @@ export default (props, children) => {
 	return html`
     <div class="RoomPage Page">
       <InConversationToast />
-      <h1>${roomData.roomName}</h1>
+			<h1>${roomData.roomName}</h1>
+			<div class="room-id-label">Room ID: ${roomId}</div>
       <div class="conversation-grid">
         ${conversationDom}
       </div>

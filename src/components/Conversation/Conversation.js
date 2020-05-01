@@ -18,8 +18,6 @@ export default (props, children) => {
 	// We will have a hook to get users and a link of a room
 	const { users, link } = props
 
-	const linkId = `${link}-action`
-
 	// if there is no link, these people are not part of a conversation
 	const isNoGroup = link === ''
 
@@ -56,13 +54,13 @@ export default (props, children) => {
 
 	const conversationTitle = isNoGroup ? 'Not in a conversation' : userNameString
 
-	const joinConversationButton = html`<button id=${linkId} class="button-primary" onclick=${openHangout}>Join Conversation</button>`
-	const createConversationButton = html`<button id=${linkId} class="button-info" onclick=${createHangout}>Create Conversation</button>`
+	const joinConversationButton = html`<button class="button-primary" onclick=${openHangout}>Join Conversation</button>`
+	const createConversationButton = html`<button class="button-info" onclick=${createHangout}>Create Conversation</button>`
 	const conversationAction = isNoGroup ? createConversationButton : joinConversationButton
 
 	return html`
     <div class="Conversation">
-			<label for=${linkId}>${conversationTitle}</label>
+			<label>${conversationTitle}</label>
       <div class="card">
         <AvatarGroup users=${users} />
         ${conversationAction}

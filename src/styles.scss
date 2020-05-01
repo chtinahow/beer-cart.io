@@ -1,3 +1,7 @@
+body {
+	background-color: #edf4ff;
+}
+
 // while the font is loading, do not render the page
 .font-not-loaded * {
 	opacity: 0;
@@ -51,7 +55,7 @@ button {
 }
 
 // force primary color
-.button-primary {
+input[type="submit"], .button-primary {
 	background-color: #66adeb;
 	border-color: #66adeb;
 	color: white;
@@ -76,4 +80,10 @@ label, p {
 	.toast-content {
 		height: 100%
 	}
+}
+
+select:focus {
+	background-image: none;
+	border: 2px solid aliceblue;
+	margin: -2px;
 }

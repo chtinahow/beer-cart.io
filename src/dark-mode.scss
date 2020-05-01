@@ -1,19 +1,24 @@
 // styling for dark mode
 html[dark-mode="true"] {
 	body {
-		background: black;
+		background: #000508;
 	}
 
 	body, h1, h2, h3, p, span, button {
-		color: white;
+		color: #dddbe0;
 	}
 
 	.modal {
+		background: #000508;
 		box-shadow: 0 4px 12px #00000080;
 	}
 
-	.modal-body, .modal-footer {
-		background: black;
+	.modal-footer {
+		background: #000910;
+	}
+
+	.modal-body {
+		background: #000508;
 	}
 
 	.card {

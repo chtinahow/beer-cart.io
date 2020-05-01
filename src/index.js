@@ -12,6 +12,7 @@ import Firestore from './components/Firestore'
 import JoinRoomPrompt from './components/JoinRoomPrompt'
 import CreateRoomPrompt from './components/CreateRoomPrompt'
 import PrivacyPolicyPage from './components/PrivacyPolicyPage'
+import AboutPage from './components/AboutPage'
 import PageFooter from './components/PageFooter'
 import 'mustard-ui'
 import './dark-mode.scss'
@@ -20,7 +21,9 @@ import './fonts/font.scss'
 import '@fortawesome/fontawesome-pro/css/all.css'
 
 const html = registerHtml({
-	HomePage, DebugPage, RoomPage, GoogleAPI, GoogleAuthDialog, Firestore, JoinRoomPrompt, CreateRoomPrompt, LoadingPage, LoginHeader, PageFooter, PrivacyPolicyPage
+	HomePage, DebugPage, RoomPage, GoogleAPI, GoogleAuthDialog, Firestore,
+	JoinRoomPrompt, CreateRoomPrompt, LoadingPage, LoginHeader, PageFooter,
+	PrivacyPolicyPage, AboutPage
 })
 
 const home = () => {
@@ -71,26 +74,24 @@ const home = () => {
 	})
 
 	const router = () => {
-		if (useUrlParams('/debug')) {
-			return html`<DebugPage />`
-		}
-		if (useUrlParams('/policy')) {
-			return html`<PrivacyPolicyPage />`
-		}
+		if (useUrlParams('/about')) return html`<AboutPage />`
+
+		if (useUrlParams('/debug')) return html`<DebugPage />`
+
+		if (useUrlParams('/policy')) return html`<PrivacyPolicyPage />`
+
 		if (useUrlParams('/room/:roomId')) {
 			// if the google client hasn't initialized yet, show a loading page
-			if (!isGoogleInitialzed) {
-				return html`<LoadingPage />`
-			}
+			if (!isGoogleInitialzed) return html`<LoadingPage />`
 
 			// if we are not signed in, start the auth flow
-			if (!isSignedIn) {
-				return html`<HomePage><GoogleAuthDialog /></HomePage>`
-			}
+			if (!isSignedIn) return html`<HomePage><GoogleAuthDialog /></HomePage>`
 
 			// we are signed in, go to the room page!
 			return html`<RoomPage />`
 		}
+
+		// by default, show the home page
 		return html`<HomePage />`
 	}
 
