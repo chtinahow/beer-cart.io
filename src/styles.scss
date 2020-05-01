@@ -1,5 +1,5 @@
 // while the font is loading, do not render the page
-html.wf-loading * {
+.font-not-loaded * {
 	opacity: 0;
 }
 

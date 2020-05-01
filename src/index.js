@@ -1,6 +1,6 @@
 import 'core-js/stable'
 import 'regenerator-runtime/runtime'
-import { registerHtml, start, useUrlParams, useGlobalObservable, useEffect } from 'tram-one'
+import { registerHtml, start, useUrlParams, useGlobalObservable, useEffect, useObservable } from 'tram-one'
 import DebugPage from './components/DebugPage'
 import HomePage from './components/HomePage'
 import LoadingPage from './components/LoadingPage'
@@ -26,6 +26,13 @@ const html = registerHtml({
 const home = () => {
 	const [isGoogleInitialzed] = useGlobalObservable('gapi.isGoogleInitialized')
 	const [isSignedIn] = useGlobalObservable('gapi.isSignedIn')
+	const [fontsReady, setFontsReady] = useObservable('not-loaded')
+
+	// effect to update the page when fonts have been loaded
+	useEffect(async () => {
+		const { status } = await document.fonts.ready
+		setFontsReady(status)
+	})
 
 	// keep forceReverseColorMode in sync with localstorage
 	useEffect(() => {
@@ -89,7 +96,7 @@ const home = () => {
 
 	const currentPage = router()
 	return html`
-		<div class="app-container">
+		<div class="app-container font-${fontsReady}">
 			<GoogleAPI />
 			<Firestore />
 			<LoginHeader />
