@@ -24,7 +24,8 @@ export default () => {
 		setIsSignedIn(false)
 		const user = getUserObject()
 		if (roomData && roomRef) {
-			leaveRoom(roomData, roomRef, user)
+			const commitLeave = leaveRoom(roomData, roomRef, user)
+			commitLeave()
 		}
 		signOut()
 	}

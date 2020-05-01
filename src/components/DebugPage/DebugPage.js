@@ -10,16 +10,7 @@ export default () => {
 
 	const openHangout = async () => {
 		const hangoutLink = await createNewHangoutLink()
-		const hangoutWindow = window.open(hangoutLink, '_blank', 'noreferrer,toolbar=0,status=0,width=626,height=436')
-
-		const checkHangoutWindow = () => {
-			if (hangoutWindow.closed && connectionTimer) {
-				clearInterval(connectionTimer)
-				console.log('Child window closed')
-			}
-		}
-
-		const connectionTimer = setInterval(checkHangoutWindow, 500)
+		window.open(hangoutLink, '_blank', 'noreferrer,toolbar=0,status=0,width=626,height=436')
 	}
 
 	return html`

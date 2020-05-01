@@ -1,4 +1,4 @@
-import { registerHtml, useUrlParams, useGlobalObservable, useEffect } from 'tram-one'
+import { registerHtml, useUrlParams, useGlobalObservable, useEffect, useObservable } from 'tram-one'
 import { getUserObject } from '../GoogleAPI'
 import Conversation from '../Conversation'
 import InvalidRoomPage from '../InvalidRoomPage'
@@ -25,18 +25,23 @@ export default (props, children) => {
 		const [isSignedIn] = useGlobalObservable('gapi.isSignedIn')
 		const [roomData] = useGlobalObservable('room-data')
 		const [roomRef] = useGlobalObservable('room-ref')
+		const [isLeaving, setIsLeaving] = useObservable(false)
 
-		if (!isSignedIn || !roomData || !roomRef) return
+		if (!isSignedIn || !roomData || !roomRef || isLeaving) return
 		const user = getUserObject()
 		joinRoom(roomData, roomRef, user)
 
 		// cleanup - if we leave this page, leave the room
-		const onLeavePage = () => leaveRoom(roomData, roomRef, user)
-		window.addEventListener('beforeunload', onLeavePage)
+		const commitLeave = leaveRoom(roomData, roomRef, user)
+		const onLeave = () => {
+			setIsLeaving(true)
+			commitLeave()
+		}
+		window.addEventListener('beforeunload', onLeave)
 
 		// if this effect is cleaned up, remove the listener
 		return () => {
-			window.removeEventListener('beforeunload', onLeavePage)
+			window.removeEventListener('beforeunload', onLeave)
 		}
 	})
 

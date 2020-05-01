@@ -54,7 +54,6 @@ export const joinRoom = (roomData, roomRef, user) => {
 	}
 
 	const roomDataCopy = raw(roomData)
-	console.log('roomdatacopy', roomRef)
 	// user was not in the room, add them to no-conversation group
 	// search for the conversation that has no link (the no-group)
 	const noLinkConversation = roomDataCopy.conversations.find(conv => conv.link === '')
@@ -62,11 +61,10 @@ export const joinRoom = (roomData, roomRef, user) => {
 	// push user by default into this group
 	noLinkConversation.users.push(user)
 
-	console.log(`adding ${user.name} to the room`)
 	roomRef.set(roomDataCopy)
 }
 
-export const leaveRoom = async (roomData, roomRef, user) => {
+export const leaveRoom = (roomData, roomRef, user) => {
 	// don't do anything if the user is not already in the room
 	if (!isInRoom(roomData, user)) return
 
@@ -78,17 +76,15 @@ export const leaveRoom = async (roomData, roomRef, user) => {
 
 	// update existing user's conversation to not have user
 	const userIndex = usersExistingConversation.users.findIndex(convUser => convUser.email === user.email)
-	usersExistingConversation.users.splice(userIndex, 1)
 
-	// cleanup if they were the last one out
-	cleanupEmptyConversations(roomDataCopy)
+	// returns a function that we can call the instant that we want to perform the operation
+	return () => {
+		usersExistingConversation.users.splice(userIndex, 1)
 
-	console.log(`removing ${user.name} from the room`)
-	try {
-		const doc = await roomRef.set(roomDataCopy)
-		console.log(doc)
-	} catch (error) {
-		console.error(error)
+		// cleanup if they were the last one out
+		cleanupEmptyConversations(roomDataCopy)
+
+		roomRef.set(roomDataCopy)
 	}
 }
 
