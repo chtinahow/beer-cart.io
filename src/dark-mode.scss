@@ -13,6 +13,16 @@ html[dark-mode="true"] {
 		box-shadow: 0 4px 12px #00000080;
 	}
 
+	// force primary color
+	input[type="submit"], .button-primary {
+		background-color: #528ec2;
+		border-color: #528ec2;
+	}
+
+	.modal-head {
+		background: #528ec2;
+	}
+
 	.modal-footer {
 		background: #000910;
 	}
