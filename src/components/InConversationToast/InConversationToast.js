@@ -43,7 +43,8 @@ export default (props, children) => {
 
 	return html`
     <div class="InConversationToast alert alert-info alert-border">
-      <div class="toast-content">Joined Conversation with: ${userNameString}
+      <div class="toast-content">
+				Joined Conversation with: ${userNameString}
 				${conversationButtons}
 			</div>
     </div>

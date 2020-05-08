@@ -4,11 +4,12 @@ import Conversation from '../Conversation'
 import InvalidRoomPage from '../InvalidRoomPage'
 import LoadingPage from '../LoadingPage'
 import InConversationToast from '../InConversationToast'
+import ErrorToast from '../ErrorToast'
 import { useFirestore, joinRoom, leaveRoom } from '../Firestore'
 import './RoomPage.scss'
 
 const html = registerHtml({
-	Conversation, InConversationToast, LoadingPage, InvalidRoomPage
+	Conversation, InConversationToast, LoadingPage, InvalidRoomPage, ErrorToast
 })
 
 const goToHomepage = () => window.history.pushState({}, '', '/')
@@ -67,7 +68,8 @@ export default (props, children) => {
 
 	return html`
     <div class="RoomPage Page">
-      <InConversationToast />
+			<InConversationToast />
+			<ErrorToast />
 			<h1>${roomData.roomName}</h1>
 			<div class="room-id-label">Room ID: ${roomId}</div>
       <div class="conversation-grid">

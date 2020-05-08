@@ -35,7 +35,11 @@ html[dark-mode="true"] {
 		background: #666666;
 	}
 
-	.alert {
+	.alert-info {
 		background: #688ba5;
+	}
+
+	.alert-danger {
+		background: #a56c68;
 	}
 }

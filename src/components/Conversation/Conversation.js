@@ -10,6 +10,8 @@ const html = registerHtml({
 
 export default (props, children) => {
 	const [, setConversationToast] = useGlobalObservable('conversation-toast', false)
+	const [, setErrorToast] = useGlobalObservable('error-toast', false)
+
 	const [currentConversation] = useGlobalObservable('current-conversation-data', { users: [] })
 	const [roomData] = useGlobalObservable('room-data')
 
@@ -37,19 +39,26 @@ export default (props, children) => {
 	}
 
 	const createHangout = async () => {
-		const newConversationLink = await createNewHangoutLink()
-		window.open(newConversationLink, '_blank', 'noreferrer,toolbar=0,status=0,width=626,height=436')
+		try {
+			const newConversationLink = await createNewHangoutLink()
 
-		const [roomData] = useGlobalObservable('room-data')
-		const [roomRef] = useGlobalObservable('room-ref')
-		const user = getUserObject()
+			window.open(newConversationLink, '_blank', 'noreferrer,toolbar=0,status=0,width=626,height=436')
 
-		setConversationToast(true)
-		currentConversation.link = newConversationLink
-		currentConversation.users = [user]
+			const [roomData] = useGlobalObservable('room-data')
+			const [roomRef] = useGlobalObservable('room-ref')
+			const user = getUserObject()
 
-		// update the server that we created the conversation
-		createConversation(roomData, roomRef, user, newConversationLink)
+			setConversationToast(true)
+			currentConversation.link = newConversationLink
+			currentConversation.users = [user]
+
+			// update the server that we created the conversation
+			createConversation(roomData, roomRef, user, newConversationLink)
+		} catch (error) {
+			// if there was an error creating the hangout, they probably don't have calendar permissions
+			// show error toast
+			setErrorToast(true)
+		}
 	}
 
 	const conversationTitle = isNoGroup ? 'Not in a conversation' : userNameString

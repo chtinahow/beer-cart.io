@@ -26,36 +26,33 @@ const eventDetails = {
 export default () => {
 	return new Promise((resolve, reject) => {
 		// create a new event with conferencing
-		try {
-			const createRequest = createEvent({
+		const createRequest = createEvent({
+			calendarId: 'primary',
+			resource: eventDetails,
+			conferenceDataVersion: 1
+		})
+
+		// execute the request to create the event
+		createRequest.execute(event => {
+			// note the event hangout may not exist yet,
+			// TODO include logic to handle hangout status = pending
+
+			if (event.error) {
+				reject(event.errors)
+			}
+			// set the hangout link from the event
+			resolve(event.hangoutLink)
+
+			// if we are in t test room, don't delete the event
+			if (useUrlParams('/room/cr-1234')) return
+
+			// delete the event, leave no traces
+			const deleteRequest = deleteEvent({
 				calendarId: 'primary',
-				resource: eventDetails,
-				conferenceDataVersion: 1
+				eventId: event.id,
+				sendUpdates: 'none'
 			})
-
-			// execute the request to create the event
-			createRequest.execute(event => {
-				// note the event hangout may not exist yet,
-				// TODO include logic to handle hangout status = pending
-
-				// set the hangout link from the event
-				resolve(event.hangoutLink)
-
-				// if we are in t test room, don't delete the event
-				if (useUrlParams('/room/cr-1234')) return
-
-				// delete the event, leave no traces
-				const deleteRequest = deleteEvent({
-					calendarId: 'primary',
-					eventId: event.id,
-					sendUpdates: 'none'
-				})
-				deleteRequest.execute()
-			})
-		} catch (error) {
-			console.error('Error Creating Hangout Link or Event')
-			console.error(error)
-			reject(error)
-		}
+			deleteRequest.execute()
+		})
 	})
 }
