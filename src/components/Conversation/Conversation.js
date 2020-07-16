@@ -1,6 +1,6 @@
 import { registerHtml, useGlobalObservable, useUrlParams } from 'tram-one'
 import { getUserObject, createNewHangoutLink } from '../GoogleAPI'
-import { createConversation, joinConversation } from '../Firestore'
+import { createConversation, joinConversation, createNamedConversation } from '../Firestore'
 import AvatarGroup from '../AvatarGroup'
 import './Conversation.scss'
 
@@ -63,6 +63,25 @@ export default (props, children) => {
 		}
 	}
 
+	const createAndLaunchPrompt = async () => {
+		try {
+			const newConversationLink = await createNewHangoutLink()
+
+			const [roomData] = useGlobalObservable('room-data')
+			const [roomRef] = useGlobalObservable('room-ref')
+
+			currentConversation.link = newConversationLink
+
+			// update the server that we created the conversation
+			createNamedConversation(roomData, roomRef, newConversationLink)
+			setRenamingConversation(newConversationLink)
+		} catch (error) {
+			// if there was an error creating the hangout, they probably don't have calendar permissions
+			// show error toast
+			setErrorToast(true)
+		}
+	}
+
 	const launchRenamePrompt = () => {
 		setRenamingConversation(link)
 	}
@@ -76,10 +95,11 @@ export default (props, children) => {
 
 	const joinConversationButton = html`<button class="button-primary" onclick=${openHangout}>Join</button>`
 	const renameConversationButton = html`<button class="button-info" onclick=${launchRenamePrompt}>Rename</button>`
-	const createConversationButton = html`<button class="button-info" onclick=${createHangout}>Create Conversation</button>`
+	const createNamedConversationButton = html`<button class="button-info" onclick=${createAndLaunchPrompt}>Setup Chat</button>`
+	const createAndJoinConversationButton = html`<button class="button-info" onclick=${createHangout}>Start Chat</button>`
 	const conversationActions = (() => {
-		if (isNoGroup) return createConversationButton
-		return html`<div class="actions">${[joinConversationButton, renameConversationButton]}</div>`
+		if (isNoGroup) return [createAndJoinConversationButton, createNamedConversationButton]
+		return [joinConversationButton, renameConversationButton]
 	})()
 
 	return html`
@@ -87,7 +107,7 @@ export default (props, children) => {
 			<label>${conversationTitle}</label>
       <div class="card">
         <AvatarGroup users=${users} />
-				${conversationActions}
+				<div class="actions">${conversationActions}</div>
       </div>
     </div>
   `

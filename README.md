@@ -10,6 +10,7 @@
 7. If you want to log in, you'll have to switch the `access.js` from `access-prod` to `access-dev`.
 
 ## Deployment Instructions
+0. If you changed `access.js`, reset it back to prod
 1. Run `npm run build`
 2. cd into the `/functions` directory
 3. Run `npm run deploy:hosting`

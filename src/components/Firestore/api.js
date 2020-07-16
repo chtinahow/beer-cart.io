@@ -2,11 +2,13 @@ import { raw } from 'tram-one'
 
 // remove all empty conversations from the database
 export const cleanupEmptyConversations = roomData => {
-	// find conversations that are empty (don't include no-conversation)
-	const hasNoUsers = conversation => conversation.users.length === 0 && conversation.link !== ''
+	// find conversations that are empty and have no title
+	const hasNoUsers = conversation => conversation.users.length === 0
+	const hasLink = conversation => conversation.link !== ''
+	const hasNoTitle = conversation => conversation.title === ''
 	const emptyConversations = roomData.conversations
 		.map((conv, index) => ({ index, conv }))
-		.filter(({ conv }) => hasNoUsers(conv))
+		.filter(({ conv }) => (hasLink(conv) && hasNoUsers(conv) && hasNoTitle(conv)))
 
 	// we are removing from the back, so that splice does not remove a good conversation
 	const removeConversation = ({ index }) => roomData.conversations.splice(index, 1)
@@ -171,5 +173,22 @@ export const renameConversation = (roomData, roomRef, conversationLink, title) =
 
 	// update the selected conversation to name
 	selectedConversation.title = title
+
+	// cleanup if we set the title to empty string
+	cleanupEmptyConversations(roomDataCopy)
+
+	roomRef.set(roomDataCopy)
+}
+
+export const createNamedConversation = (roomData, roomRef, conversationLink) => {
+	const roomDataCopy = raw(roomData)
+
+	// create the new conversation
+	roomDataCopy.conversations.push({
+		link: conversationLink,
+		users: [],
+		title: 'Enter Conversation Name'
+	})
+
 	roomRef.set(roomDataCopy)
 }

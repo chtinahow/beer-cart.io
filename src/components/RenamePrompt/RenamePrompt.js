@@ -14,6 +14,11 @@ export default (props, children) => {
 		setRenamingConversationLink(null)
 	}
 
+	const removeConversation = () => {
+		renameConversation(roomData, roomRef, renamingConversationLink, '')
+		setRenamingConversationLink(null)
+	}
+
 	const onRenameConversation = async event => {
 		event.preventDefault()
 		const form = event.target
@@ -48,6 +53,7 @@ export default (props, children) => {
 						<div class="modal-footer RenamePrompt-controls">
 								<input type="submit" class="button-primary" value="Change" />
 								<button onclick=${onDismiss} class="button-info">Cancel</button>
+								<button onCLick=${removeConversation} class="button-info">Remove Conversation</button>
 						</div>
 					</form>
         </div>
