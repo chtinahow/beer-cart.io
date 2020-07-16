@@ -8,4 +8,9 @@
 		margin: 0;
 		box-shadow: 0 4px 12px rgba(88, 88, 88, 0.5);
 	}
+
+	.actions {
+		display: grid;
+		grid-template-columns: 1fr 1fr;
+	}
 }

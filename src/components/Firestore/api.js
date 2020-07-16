@@ -157,3 +157,19 @@ export const leaveConversation = (roomData, roomRef, user) => {
 	emptyConversation.users.push(user)
 	roomRef.set(roomDataCopy)
 }
+
+export const renameConversation = (roomData, roomRef, conversationLink, title) => {
+	const roomDataCopy = raw(roomData)
+
+	// find the conversation that we want to rename
+	const selectedConversation = roomDataCopy.conversations.find(conv => conv.link === conversationLink)
+
+	// if we couldn't find conversation, don't update data
+	if (!selectedConversation) {
+		return
+	}
+
+	// update the selected conversation to name
+	selectedConversation.title = title
+	roomRef.set(roomDataCopy)
+}

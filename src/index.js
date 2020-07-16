@@ -1,6 +1,7 @@
 import 'core-js/stable'
 import 'regenerator-runtime/runtime'
 import { registerHtml, start, useUrlParams, useGlobalObservable, useEffect, useObservable } from 'tram-one'
+import RenamePrompt from './components/RenamePrompt'
 import DebugPage from './components/DebugPage'
 import HomePage from './components/HomePage'
 import LoadingPage from './components/LoadingPage'
@@ -23,7 +24,7 @@ import '@fortawesome/fontawesome-pro/css/all.css'
 const html = registerHtml({
 	HomePage, DebugPage, RoomPage, GoogleAPI, GoogleAuthDialog, Firestore,
 	JoinRoomPrompt, CreateRoomPrompt, LoadingPage, LoginHeader, PageFooter,
-	PrivacyPolicyPage, AboutPage
+	PrivacyPolicyPage, AboutPage, RenamePrompt
 })
 
 const home = () => {
@@ -106,6 +107,7 @@ const home = () => {
 			</div>
 			<JoinRoomPrompt />
 			<CreateRoomPrompt />
+			<RenamePrompt />
 			<PageFooter />
 		</div>
 	`

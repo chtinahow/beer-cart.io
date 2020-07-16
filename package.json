@@ -3,8 +3,8 @@
   "version": "1.0.0",
   "scripts": {
     "start": "parcel index.html --open",
-		"build": "parcel build index.html",
-		"postbuild": "cp conversation.png dist/preview.png",
+    "build": "parcel build index.html",
+    "postbuild": "cp conversation.png dist/preview.png",
     "test": "jest --watch",
     "lint": "xo",
     "deploy": "firebase deploy"

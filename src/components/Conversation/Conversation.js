@@ -11,14 +11,16 @@ const html = registerHtml({
 export default (props, children) => {
 	const [, setConversationToast] = useGlobalObservable('conversation-toast', false)
 	const [, setErrorToast] = useGlobalObservable('error-toast', false)
+	const [, setRenamingConversation] = useGlobalObservable('renaming-conversation-link')
 
 	const [currentConversation] = useGlobalObservable('current-conversation-data', { users: [] })
+
+	// pull these so that this component refreshes when it updates?
+	// TODO verify if we need these
 	const [roomData] = useGlobalObservable('room-data')
 
-	const { roomId } = useUrlParams('/room/:roomId')
-
 	// We will have a hook to get users and a link of a room
-	const { users, link } = props
+	const { users, link, title } = props
 
 	// if there is no link, these people are not part of a conversation
 	const isNoGroup = link === ''
@@ -61,18 +63,31 @@ export default (props, children) => {
 		}
 	}
 
-	const conversationTitle = isNoGroup ? 'Not in a conversation' : userNameString
+	const launchRenamePrompt = () => {
+		setRenamingConversation(link)
+	}
 
-	const joinConversationButton = html`<button class="button-primary" onclick=${openHangout}>Join Conversation</button>`
+	const conversationTitle = (() => {
+		if (isNoGroup) return 'Not in a conversation'
+		const hasTitle = Boolean(title)
+		if (hasTitle) return title
+		return userNameString
+	})()
+
+	const joinConversationButton = html`<button class="button-primary" onclick=${openHangout}>Join</button>`
+	const renameConversationButton = html`<button class="button-info" onclick=${launchRenamePrompt}>Rename</button>`
 	const createConversationButton = html`<button class="button-info" onclick=${createHangout}>Create Conversation</button>`
-	const conversationAction = isNoGroup ? createConversationButton : joinConversationButton
+	const conversationActions = (() => {
+		if (isNoGroup) return createConversationButton
+		return html`<div class="actions">${[joinConversationButton, renameConversationButton]}</div>`
+	})()
 
 	return html`
     <div class="Conversation">
 			<label>${conversationTitle}</label>
       <div class="card">
         <AvatarGroup users=${users} />
-        ${conversationAction}
+				${conversationActions}
       </div>
     </div>
   `

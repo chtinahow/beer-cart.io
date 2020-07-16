@@ -7,6 +7,7 @@
 4. Open a second terminal
 5. Go to the `/functions` directory, and run `npm install`
 6. Run the emulator for hosting, functions, and the db: `npm run serve:hosting`
+7. If you want to log in, you'll have to switch the `access.js` from `access-prod` to `access-dev`.
 
 ## Deployment Instructions
 1. Run `npm run build`
