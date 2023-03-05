@@ -1,5 +1,12 @@
 # beer-cart.io
 
+-----
+
+**:warning: Note this project is no longer maintained, feel free to fork or start your own project!**
+
+-----
+
+
 ## Development instructions
 1. In the root directory, run `npm install` to install all the project dependencies
 2. Run `npm start` to start the dev server
